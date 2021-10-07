@@ -1,37 +1,40 @@
-## Welcome to GitHub Pages
+---
+layout: default
+title: Home
+nav_order: 1
+permalink: /
+---
 
-You can use the [editor on GitHub](https://github.com/InfinitePeripherals/QPayTest/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+# QuantumPay Documentation
+{: .fs-9 }
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+This is a nice description of what QuantumPay is. Did we mention how easy it is to implement?!
+{: .fs-5 .fw-300 }
 
-### Markdown
+---
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+For a quick walkthrough to get you up and running with QuantumPay follow the link below. To see QuantumPay in a working demo, follow the other link to our demo on GitHub.
 
-```markdown
-Syntax highlighted code block
 
-# Header 1
-## Header 2
-### Header 3
+[Get started with iOS](https://InfinitePeripherals.github.io/QPayTest/getting-started-test){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [View demo on GitHub](https://github.com/InfinitePeripherals/QPayTest){: .btn .fs-5 .mb-4 .mb-md-0 }
 
-- Bulleted
-- List
 
-1. Numbered
-2. List
+If you have any questions, please visit our website at [PLACEHOLDER](https://google.com) or contact Infinite Peripherals at 001.949.222.0300.
 
-**Bold** and _Italic_ and `Code` text
+---
 
-[Link](url) and ![Image](src)
-```
+## QuantumPay Change Log
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### 1.2.0 - 2021-05-13
 
-### Jekyll Themes
+*   Item foo
+*   Item bar
+*   Item baz
+*   Item zip
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/InfinitePeripherals/QPayTest/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+### 1.1.0 - 2021-04-19
 
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+*   Item foo
+*   Item bar
+*   Item baz
+*   Item zip
