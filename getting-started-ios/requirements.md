@@ -2,7 +2,7 @@
 layout: default
 title: Requirements
 nav_order: 1
-parent: Getting Started - iOS
+parent: Quick Start Guide /	Getting Started - iOS
 ---
 
 ## Requirements
