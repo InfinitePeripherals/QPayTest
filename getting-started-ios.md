@@ -1,8 +1,8 @@
 ---
 layout: default
-title: Getting started with iOS (TEST)
+title: iOS
 nav_order: 2
-permalink: getting-started-test
+parent: Quick Start Guide
 ---
 
 # Getting started with iOS
