@@ -8,7 +8,7 @@ permalink: /
 # QuantumPay Documentation
 {: .fs-9 }
 
-This is a nice description of what QuantumPay is. Did we mention how easy it is to implement?!
+QuantumPay Solution. Your single source payment solution provider, purposely built for QuantumPay Reader, QuantumPay Pin, QuantumPay Connected, and QuantumPay Kiosk.
 {: .fs-5 .fw-300 }
 
 ---
@@ -16,10 +16,10 @@ This is a nice description of what QuantumPay is. Did we mention how easy it is 
 For a quick walkthrough to get you up and running with QuantumPay follow the link below. To see QuantumPay in a working demo, follow the other link to our demo on GitHub.
 
 
-[Get started with iOS](https://InfinitePeripherals.github.io/QPayTest/getting-started-ios){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [View demo on GitHub](https://github.com/InfinitePeripherals/QPayTest){: .btn .fs-5 .mb-4 .mb-md-0 }
+[Get started with iOS](https://InfinitePeripherals.github.io/QuantumPay/getting-started-ios){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [View demo on GitHub](https://github.com/InfinitePeripherals/QuantumPay){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 
-If you have any questions, please visit our website at [Infinite Peripherals](https://ipcmobile.com) or contact us at 949.222.0300.
+If you have any questions, please visit our website at [Infinite Peripherals](https://ipcmobile.com/products/quantumpay-solution).
 
 ---
 
