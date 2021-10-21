@@ -1,9 +1,9 @@
 ---
 layout: default
 title: Getting Started - iOS
-nav_order: 3
+nav_order: 1
 has_children: true
-permalink: getting-started-ios
+parent: Quick Start Guide
 ---
 
 # Getting Started - iOS
