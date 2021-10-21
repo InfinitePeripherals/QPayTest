@@ -5,10 +5,10 @@ nav_order: 2
 permalink: quick-start-guide
 ---
 
-# Getting started with iOS
+# Quick Start Guide
 {: .fs-9 }
 
-Learn how to set up your iOS app to use QuantumPay and use it to process payments and scan barcodes.
+A quick start guide for your preferred platform. Currently, QuantumPay supports native iOS, Android, and Xamarin. Select your preferred platform below to get started.
 {: .fs-5 .fw-300 }
 
 ## Table of contents
