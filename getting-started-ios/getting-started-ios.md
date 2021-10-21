@@ -2,8 +2,8 @@
 layout: default
 title: Getting Started - iOS
 nav_order: 1
-has_children: true
-parent: Quick Start Guide
+has_children: false
+parent: Home
 ---
 
 # Getting Started - iOS
