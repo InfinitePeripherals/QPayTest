@@ -18,7 +18,7 @@ You can find the lastest version of QuantumPay at [https://github.com/InfinitePe
 
 ## Documentation
 
-The API reference is located at [https://infiniteperipherals.github.io/QuantumPay/ios/classes/](https://infiniteperipherals.github.io/QuantumPay/ios/classes/)
+The documentation can be found here [https://infiniteperipherals.github.io/QuantumPay/](https://infiniteperipherals.github.io/QuantumPay/)
 
 ## Getting Help
 
