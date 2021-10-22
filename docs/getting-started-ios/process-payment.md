@@ -2,7 +2,8 @@
 layout: default
 title: Processing a Payment
 nav_order: 3
-parent: Getting Started - iOS
+parent: iOS
+grand_parent: Getting Started
 ---
 
 ## Processing a Payment

@@ -2,7 +2,8 @@
 layout: default
 title: Project Setup
 nav_order: 2
-parent: Getting Started - iOS
+parent: iOS
+grand_parent: Getting Started
 ---
 
 ## Project Setup

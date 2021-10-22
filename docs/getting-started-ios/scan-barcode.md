@@ -2,7 +2,8 @@
 layout: default
 title: Scanning a Barcode
 nav_order: 4
-parent: Getting Started - iOS
+parent: iOS
+grand_parent: Getting Started
 ---
 
 ## Scanning a Barcode
