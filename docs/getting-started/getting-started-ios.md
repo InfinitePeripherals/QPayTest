@@ -12,10 +12,4 @@ has_children: true
 Learn how to set up your iOS app to use QuantumPay and use it to process payments and scan barcodes.
 {: .fs-5 .fw-300 }
 
-## Table of contents
-{: .no_toc .text-delta }
-
-1. TOC
-{:toc}
-
 ---
