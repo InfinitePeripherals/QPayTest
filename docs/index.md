@@ -16,7 +16,7 @@ QuantumPay Solution. Your single source payment solution provider, purposely bui
 For a quick walkthrough to get you up and running with QuantumPay follow the link below. To see QuantumPay in a working demo, follow the other link to our demo on GitHub.
 
 
-[Quick Start Guide](https://infiniteperipherals.github.io/QuantumPay/quick-start-guide){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [View demo on GitHub](https://github.com/InfinitePeripherals/QuantumPay){: .btn .fs-5 .mb-4 .mb-md-0 }
+[Download QuantumPay](https://github.com/InfinitePeripherals/QuantumPay/releases){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [Quick Start Guide](https://infiniteperipherals.github.io/QuantumPay/quick-start-guide){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 
 If you have any questions, please visit our website at [Infinite Peripherals](https://ipcmobile.com/products/quantumpay-solution).
