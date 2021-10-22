@@ -1,74 +1,9 @@
 ---
 layout: default
-title: iOS
-nav_order: 2
-parent: Getting Started
-has_children: true
----
-
-# Getting started with iOS
-{: .fs-9 }
-
-Learn how to set up your iOS app to use QuantumPay and use it to process payments and scan barcodes.
-{: .fs-5 .fw-300 }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-1. TOC
-{:toc}
-
----
-
-## Requirements
-
-- SDKs *(please contact Infinite Peripherals)*
-    - QuantumPayClient.xcframework
-    - QuantumPayMobile.xcframework
-    - QuantumPayPeripheral.xcframework
-    - QuantumSDK.xcframework
-    - ObjectBox *(CocoaPods)*
-- Xcode 11+
-- iOS 13+
-- Infinitie Peripherals' payment device
-- Swift
-- Payment related credentials: username/email, password, service name, and tenant key (please contact Infinite Peripherals)
-- Developer key for your app bundle ID (please contact Infinite Peripherals)
-
----
-
-## Project Setup
-
-1. Installing QuantumPay SDKs:
-    - Add the framework files into **Frameworks, Libraries and Embedded Content**.
-    - Set **Embed** to "Embed & Sign".
-
-2. Installing ObjectBox:
-    - Visit [ObjectBox - Swift](https://swift.objectbox.io) and follow the instruction to install ObjectBox for your project.
-
-3. Set **Enable Bitcode** to *false* in **Project's Build Setting**.
-
-4. To communicate with hardware devices, please add "Supported external accessory protocols" to **Info.plist** with these values:
-```markdown
-com.datecs.pengine
-com.datecs.linea.pro.msr
-com.datecs.linea.pro.bar
-com.datecs.printer.escpos
-com.datecs.pinpad
-```
-
-5. Add **Privacy** entries into **Info.plist**:
-    - Bluetooth BLE privacy options to connect to payment devices:
-```markdown
-"Privacy - Bluetooth Always Usage Description" 
-"Privacy - Bluetooth Peripheral Usage Description"
-```
-    - Location privacy to allow the Quantum Pay SDK to work correctly:
-```markdown
-"Privacy - Location When In Use Usage Description" 
-"Privacy - Location Usage Description"
-```
-
+title: Processing a Payment
+nav_order: 3
+parent: iOS
+grand_parent: Getting Started
 ---
 
 ## Processing a Payment
@@ -247,20 +182,3 @@ If needed, you can disconnect the payment device at anytime. The device need to 
 ```
 self.pEngine!.disconnect()
 ```
-
----
-
-## Scanning a Barcode
-If your payment device supports barcode scanning (e.g.: QPC150, QPC250), in order to receive the barcode data, you will need to set your class to conform to the protocol `IPCDTDeviceDelegate`, and add the class instance as a delegate to receive the barcode. The scanner will only scan if it is connected to the application.
-```
-self.paymentDevice.device.addDelegate(self)
-```
-Once a barcode is scanned, it will be sent to this delegate method:
-```
-func barcodeData(_ barcode: String!, type: Int32) {
-    // Handle the barcode
-}
-```
-
-
-
