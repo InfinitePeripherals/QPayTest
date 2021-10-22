@@ -6,8 +6,8 @@ has_children: true
 permalink: getting-started
 ---
 
-# Quick Start Guide
+# Getting Started
 {: .fs-9 }
 
-A quick start guide for your preferred platform. Currently, QuantumPay supports native iOS, Android, and Xamarin. Select your preferred platform below to get started.
+QuantumPay supports native iOS, Android, and Xamarin. Select your preferred platform below to get started.
 {: .fs-5 .fw-300 }
