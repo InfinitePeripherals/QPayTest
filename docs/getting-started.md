@@ -1,9 +1,9 @@
 ---
 layout: default
-title: Quick Start Guide
+title: Getting Started
 nav_order: 2
 has_children: true
-permalink: quick-start-guide
+permalink: getting-started
 ---
 
 # Quick Start Guide

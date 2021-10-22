@@ -2,7 +2,7 @@
 layout: default
 title: iOS
 nav_order: 2
-parent: Quick Start Guide
+parent: Getting Started
 ---
 
 # Getting started with iOS
