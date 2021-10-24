@@ -17,5 +17,6 @@ These are DocC Archive files, where you can view it from within Xcode (requires 
 * [QuantumPayClient]()
 * [QuantumPayMobile]()
 * [QuantumPayPeripheral]()
+
 ## [Android API Docs]()
 ## [Xamarin API Docs](http://ipcdocs.azurewebsites.net/api/)
