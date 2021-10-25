@@ -5,16 +5,17 @@ QuantumPay Solution. Your single source payment solution provider, purposely bui
 
 | Platform | Minimum Versions | Status |
 | --- | --- | --- |
-| iOS 10.0+ | Objective-C / Swift 5.1+ | Fully Tested |
+| iOS 13.0+ | Swift 5.0+ / Xcode 11.0+ | Fully Tested |
 | Android | - | In Development |
+| Xamarin | - | In Development |
 
 ## Downloads
 
 You can find the lastest version of QuantumPay at [https://github.com/InfinitePeripherals/QuantumPay/releases](https://github.com/InfinitePeripherals/QuantumPay/releases)
 
-## Quick Start Guides
+## Getting Started
 
-- [iOS Quick Start Guide](https://infiniteperipherals.github.io/QuantumPay/quick-start-guide/getting-started-ios.html)
+- [Getting Started with iOS](https://infiniteperipherals.github.io/QuantumPay/getting-started-ios/getting-started-ios.html)
 
 ## Documentation
 
@@ -22,7 +23,7 @@ The documentation can be found here [https://infiniteperipherals.github.io/Quant
 
 ## Getting Help
 
-- Feel free to email us at [mobilesupport@ipcmobile.com](mailto:mobilesupport@ipcmobile.com)
+- If you have questions, email us at [mobilesupport@ipcmobile.com](mailto:mobilesupport@ipcmobile.com)
 - You can also contact Infinite Peripherals at 001.949.222.0300
 
 ## License
