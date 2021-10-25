@@ -8,6 +8,8 @@ grand_parent: Getting Started
 
 ## Processing a Payment
 
+{:toc}
+
 ### 1. Initialize the SDKs
 The SDKs need to be initialized with the correct keys provided by Infinite Peripherals. This step is important and should be the first code to run before using other functions from the SDKs.
 ```
