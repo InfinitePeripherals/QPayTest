@@ -8,7 +8,13 @@ grand_parent: Getting Started
 
 ## Processing a Payment
 
+### Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
 {:toc}
+
+---
 
 ### 1. Initialize the SDKs
 The SDKs need to be initialized with the correct keys provided by Infinite Peripherals. This step is important and should be the first code to run before using other functions from the SDKs.
