@@ -36,9 +36,11 @@ Add new entry for "Supported external accessory protocols" to **Info.plist** wit
 * com.datecs.pinpad
 
 ### Add **Privacy** entries into **Info.plist**:
+
 #### Bluetooth BLE privacy options to connect to payment devices:
 * "Privacy - Bluetooth Always Usage Description" 
 * "Privacy - Bluetooth Peripheral Usage Description"
+
 #### Location privacy to allow the Quantum Pay SDK to work correctly:
 * "Privacy - Location When In Use Usage Description" 
 * "Privacy - Location Usage Description"
