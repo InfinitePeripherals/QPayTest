@@ -3,10 +3,10 @@ QuantumPay Solution. Your single source payment solution provider, purposely bui
 
 ## Requirements
 
-| Platform | Minimum Versions | Status |
+| Platform | Versions | Status |
 | --- | --- | --- |
-| iOS 13.0+ | Swift 5.0+ / Xcode 11.0+ | Fully Tested |
-| Android | - | In Development |
+| iOS | iOS 13.0+ / Swift 5.0+ | Fully Tested |
+| Android | 8.0+ | Fully Tested |
 | Xamarin | - | In Development |
 
 ## Downloads
@@ -15,11 +15,16 @@ You can find the lastest version of QuantumPay at [https://github.com/InfinitePe
 
 ## Getting Started
 
+For a guide on how to set up and use QuantumPay with your application, check out one of the guides below.
+
 - [Getting Started with iOS](https://infiniteperipherals.github.io/QuantumPay/getting-started-ios/getting-started-ios.html)
+- [Getting Started with Android](https://infiniteperipherals.github.io/QuantumPay/getting-started-android/getting-started-android.html)
+- [Getting Started with Xamarin](https://infiniteperipherals.github.io/QuantumPay/getting-started-xamarin/getting-started-xamarin.html)
 
 ## Documentation
 
-The documentation can be found here [https://infiniteperipherals.github.io/QuantumPay/](https://infiniteperipherals.github.io/QuantumPay/)
+- The documentation can be found at [https://infiniteperipherals.github.io/QuantumPay/](https://infiniteperipherals.github.io/QuantumPay/)
+- The API reference is located at [https://infiniteperipherals.github.io/QuantumPay/api-docs](https://infiniteperipherals.github.io/QuantumPay/api-docs)
 
 ## Getting Help
 
