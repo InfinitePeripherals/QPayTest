@@ -2,7 +2,8 @@
 layout: default
 title: Android
 nav_order: 2
-parent: API Docs
+parent: Change Log
 ---
 
-# Android API Docs
+# Android Change Log
+

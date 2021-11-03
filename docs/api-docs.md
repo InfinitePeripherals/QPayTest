@@ -1,7 +1,7 @@
 ---
 layout: default
 title: API Docs
-nav_order: 3
+nav_order: 4
 has_children: true
 permalink: api-docs
 ---
@@ -9,5 +9,5 @@ permalink: api-docs
 # API Docs
 {: .fs-9 }
 
-Select your preferred platform below to view the API Docs.
+Select platform below to view its API Docs.
 {: .fs-5 .fw-300 }

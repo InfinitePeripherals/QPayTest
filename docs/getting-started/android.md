@@ -3,10 +3,10 @@ layout: default
 title: Android
 nav_order: 2
 parent: Getting Started
-has_children: true
+has_children: false
 ---
 
-# Getting started with Android
+# Getting Started with Android
 {: .fs-9 }
 
 Learn how to set up your Android app to use QuantumPay to process payment transactions.
