@@ -2,7 +2,7 @@
 
 QuantumPay Solution. Your single source payment solution provider, purposely built for QuantumPay Reader, QuantumPay Pin, QuantumPay Connected, and QuantumPay Kiosk.
 
-## Requirements
+## SDK Requirements
 
 | Platform | Versions | Status |
 | --- | --- | --- |
