@@ -19,12 +19,12 @@
 # in the templates via {{ site.myvariable }}.
 
 title: "QuantumPay"
-#remote_theme: pmarsceill/just-the-docs
+remote_theme: pmarsceill/just-the-docs
 search_enabled: true
 logo: "/assets/images/logos/quantumpay-dark.png"
 
 # Build settings
-theme: "just-the-docs"
+#theme: "just-the-docs"
 
 # Color scheme
 color_scheme: ipc
