@@ -18,18 +18,18 @@ Integration with your Point of Sale solution is made simple with the QuantumPay 
 - Works with minimal configuration out of the box
 - Uses headless APIs so POS developers retain full control of application user interface
 - Conforms to payment security standards and best practices
-- Supports for store & forward payment processing
+- Support for store & forward payment processing
 
 ---
 
 ## QuantumPay SDK Libraries
-QuantumPay SDK is comprised of 3 separate libraries: QuantumPayClient, QuantumPayMobile and QuantumPayPeripheral. By separating functionality into layers, you have the ability to use only what you need for your specific POS solution. You can chose just one, or up to all three for maximum functionality. Each library and it's uses are listed below.
+QuantumPay SDK is comprised of 3 separate libraries: QuantumPayClient, QuantumPayMobile and QuantumPayPeripheral. By separating functionality into layers, you have the ability to use only what you need for your specific POS solution. You can chose just one, or up to all three for maximum functionality.
 
 ### QuantumPayClient
-QuantumPayClient handles the communication with web APIs. This is the library you would use to configure your server information/credentials and handle the result of your sent transactions. If you want your application to work with different peripherals or not use our payment engine, you could still use this library to send transactions to QuantumPay.
+QuantumPayClient handles communication with web APIs. This is the library you use to configure your server information/credentials and handle the results of your sent transactions. If you want your application to work with different peripherals or not use our payment engine, you could still use this library to send transactions to QuantumPay.
 
 ### QuantumPayMobile
-QuantumPayMobile is the library that handles payment engine operations. It is in charge of controlling the payment flow and communicating back the state of the transaction back to the host app. This is the library you would use to build transactions and utilize store & forward for offline operation.
+QuantumPayMobile is the library that handles payment engine operations. It is in charge of controlling the payment flow and communicating back the state of the transaction back to the host app. This is the library you use to build transactions and utilize store & forward for offline operation.
 
 ### QuantumPayPeripheral
-QuantumPayPeripheral manages the payment device itself. This library is what you use to define & connect to your payment device, wetcher it be an Infinite Peripherals device or not. By keeping this separate from the other libraries you are able to swap out peripheral implementations depending on what payment device you use.
+QuantumPayPeripheral manages the payment device itself. This library allows you define your own payment device or if you are using an Infinite Peripherals payment device utilize our predefined classes. This is also where you manage the connection to the device, whether its Bluetooth or directly connected. By keeping this separate you are able to swap out peripheral implementations depending on what payment device you are using.
