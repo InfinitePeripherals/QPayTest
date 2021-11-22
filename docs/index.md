@@ -23,13 +23,13 @@ Integration with your Point of Sale solution is made simple with the QuantumPay 
 ---
 
 ## QuantumPay SDK Libraries
-QuantumPay SDK is comprised of 3 separate libraries: QuantumPayClient, QuantumPayMobile and QuantumPayPeripheral. By separating functionality into layers, you have the ability to use only what you need for your specific POS solution. You can chose just one, or up to all three for maximum functionality.
+QuantumPay SDK is comprised of 3 separate libraries: QuantumPayClient, QuantumPayMobile and QuantumPayPeripheral. By separating functionality into layers, you have the ability to use only what you need for your specific POS solution. You can choose just one, or up to all three for maximum functionality.
 
 ### QuantumPayClient
 QuantumPayClient handles communication with web APIs. This is the library you use to configure your server information/credentials and handle the results of your sent transactions. If you want your application to work with different peripherals or not use our payment engine, you could still use this library to send transactions to QuantumPay.
 
 ### QuantumPayMobile
-QuantumPayMobile is the library that handles payment engine operations. It is in charge of controlling the payment flow and communicating back the state of the transaction back to the host app. This is the library you use to build transactions and utilize store & forward for offline operation. Also if you plan on using some other hardware, this library has interfaces to write your own peripheral classes.
+QuantumPayMobile is the library that handles payment engine operations. It is in charge of controlling the payment flow and communicating back the state of the transaction back to the host app. This is the library you use to build transactions and utilize store & forward for offline operation. Also, if you plan on using some other payment hardware, this library has interfaces to write your own peripheral classes.
 
 ### QuantumPayPeripheral
 QuantumPayPeripheral is specifically for managing Infinite Peripherals payment devices. This library has predefined classes meant to work with our suite of payment devices. If using one of our devices, this is where you would manage the connection to the device, whether its Bluetooth or directly connected.
