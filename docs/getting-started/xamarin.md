@@ -127,18 +127,50 @@ Alternatively, you can create a ‘Payment Factory’ and pass this in to the pa
 ```C#
 // The device serial number is found on the label on the device.
 public Func<IPeripheral> CreatePeripheralFactory()
-        {
-            if (App.Instance.PeripheralInfo.RequiresPairingSerialNumber(Peripheral.Type))
-            {
-                return App.Instance.PeripheralInfo.CreateFactory(Peripheral.Type, “15523444”);
-            }
+{
+    if (App.Instance.PeripheralInfo.RequiresPairingSerialNumber(Peripheral.Type))
+    {
+        return App.Instance.PeripheralInfo.CreateFactory(Peripheral.Type, “15523444”);
+    }
 
-            return App.Instance.PeripheralInfo.CreateFactory(Peripheral.Type);
-        }```
+    return App.Instance.PeripheralInfo.CreateFactory(Peripheral.Type);
+}
+```
+
+---
 
 ### Create Payment Engine
 
 The payment engine is the main object that you will interact with to send transactions and receive callbacks.
 
+```C#
+public async Task CreatePaymentEngine()
+{
+    // create the peripheral factory (invoked by the PaymentEngine)
+    PeripheralFactory = SamplePeripheral.Wrap(CreatePeripheralFactory());
+
+    // build the payment engine
+    PaymentEngine = await PaymentEngine.Builder
+        .Server(ServerConfiguration.Configuration) // optional - the default production server is used if not provided
+        .SetQueueStrategy(QueueStrategyMode.Value) // optional - call when Store and Forward will be used, options available: Disabled, WhenOffline, Always, AlwaysBatch // default is AlwaysBatch
+        .RegistrationCredentials(DeviceAdministrator.Username, DeviceAdministrator.Password) // optional - only used to register the device, not required if the device is already registered with the server
+        .PosId(PosId) // required - the unique POS ID for your system
+        .EmvApplicationSelectionStrategy(EmvApplicationSelectionStrategy.Value)
+        .TransactionTimeout(TimeSpan.FromSeconds(transactionTimeout.Timeout)) // optional - specify the duration that the peripheral will wait for the customer to complete the payment
+        .Logger(new ConsoleLogger()) // optional - add your own logger implementation
+        .UnhandledExceptionHandler(ex =>
+        {
+            // optional - add your own exception handling here - such as crash logger or error dialog, etc
+            // by default, the engine will log the errors using the logger implementation
+            Console.WriteLine($"UNHANDLED EXCEPTION:: {ex}");
+        })
+        .AddPeripheral(PeripheralFactory, autoConnect: false) // required - add your peripheral
+        .BuildAsync();
+}
+```
+![image](https://user-images.githubusercontent.com/98154474/151173681-d457ce73-3281-4027-80ad-fae5699e9b41.png)
+
 ---
+
+
 
