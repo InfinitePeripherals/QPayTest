@@ -168,9 +168,175 @@ public async Task CreatePaymentEngine()
         .BuildAsync();
 }
 ```
-![image](https://user-images.githubusercontent.com/98154474/151173681-d457ce73-3281-4027-80ad-fae5699e9b41.png)
 
 ---
 
+### Setup Handlers
+Once the `PaymentEngine` is created, you can use it's handlers to track the operation. The `PaymentEngine` handlers will get called throughout the payment process and will return you the current state of the transaction. You can set these handlers in the completion block of the previous step.
 
+`PeripheralStateHandler` will get called when the state of the peripheral changes during the transaction process. The PeripheralState represents the current state of the peripheral as reported by the peripheral device itself. These include “idle”, “ready”, “contactCardInserted” etc.
+
+`PeripheralMessageHandler` will get called when there is new message about the transaction throughout the process. The peripheral message tells you when to present the card, if the card read is successful or failed, etc. This usually indicates something that should be displayed in the user interface.
+
+`EmvApplicationHandler` will get called if the EmvApplicationSelection is required.
+
+```C#
+private void SetPaymentEngineHandlers()
+{
+    PaymentEngine.SetPeripheralStateHandler((peripheral, peripheralState) =>
+    {
+        MainThread.BeginInvokeOnMainThread(() => { PeripheralState = peripheralState; });
+    });
+
+    PaymentEngine.SetPeripheralMessageHandler((peripheral, message) =>
+    {
+        MainThread.BeginInvokeOnMainThread(() => { PeripheralMessage = message; });
+    });
+
+    PaymentEngine.SetEmvApplicationSelectionHandler((peripheral, transaction, selection) =>
+    {
+        MainThread.BeginInvokeOnMainThread(async() =>
+        {
+            await ShowEmvApplicationSelectionAction(selection);
+        });
+    });
+
+}
+```
+
+---
+
+### Connect to Payment Device
+Now that your payment engine is configured and your handlers are set up, lets connect to the payment device. Please make sure the device is attached and turned on. We need to connect to the payment device prior to starting a transaction. The connection state will be returned to the `ConnectionStateHandler` that we set up previously. If you didn't set autoConnect when creating the payment engine, you will need to call `connect()` before starting a transaction.
+
+`ConnectionStateHandler` will get called when the connection state of the payment device changes between connecting, connected, and disconnected. It is important to make sure your device is connected before attempting to start a transaction.
+
+```C#
+public void ConnectToPeripheral()
+{
+    // assign connection state and transaction state handlers
+    PaymentEngine.SetConnectionStateHandler((peripheral, connectionState) =>
+    {
+        ConnectionState = connectionState;
+
+        switch (connectionState)
+        {
+            case ConnectionState.Disconnected:
+                ConnectionMessage = "Disconnected";
+                IsReady = false;
+                IsConnectBtnEnabled = true;
+                break;
+
+            case ConnectionState.Connecting:
+                ConnectionMessage = "Connecting";
+                IsReady = false;
+                IsConnectBtnEnabled = false;
+                break;
+
+            case ConnectionState.Connected:
+                if (PaymentEngine.IsTestMode)
+                    ConnectionMessage = "Connected - Test Mode";
+                else
+                    ConnectionMessage = "Connected - Production Mode";
+                IsReady = true;
+                BatteryPercentage = peripheral.BatteryPercentage + "%";
+                IsConnectBtnEnabled = false;
+                AddPeripheralInfoOption();
+                break;
+        }
+    });
+
+    // connect to the peripheral - must be called before any further interaction with the peripheral
+    PaymentEngine.Connect();
+}
+```
+
+---
+
+### Create an Invoice
+Time to create an invoice. This invoice object holds information about a purchase order and the items in the order.
+
+```c#
+var invoiceBuilder = PaymentEngine.BuildInvoice(InvoiceNum)
+                    .CompanyName(CompanyName)
+                    .PurchaseOrderReference(PurchaseOrderReference);
+
+                    foreach (var invoiceItem in InvoiceItems)
+                    {
+                        invoiceBuilder.AddItem(item => item.ProductCode(invoiceItem.ProductCode)
+                            .Description(invoiceItem.Description)
+                            .SaleCode(invoiceItem.SaleCode)
+                            .UnitPrice(invoiceItem.UnitPrice)
+                            .Quantity(invoiceItem.Quantity)
+                            //.UnitOfMeasure(invoiceItem.UnitOfMeasureCode) //todo: task #3235
+                            );
+                    }
+
+                    var invoice = invoiceBuilder.CalculateTotals().Build();
+                
+```
+
+### Create a Transaction
+
+The transaction object holds information about the invoice, the total amount for the transaction and the type of the transaction (e.g.: sale, auth, refund, etc.)
+
+`var txnBuilder = PaymentEngine.BuildTransaction(invoice)
+                    .Amount(amount, SelectedCurrency.Currency)
+                    .Reference(Reference) // required - unique transaction reference, such as your application order number
+                    .DateTime(DateTimeOffset.Now) // optional - defaults to the current local date time
+                    .Service(Service) // optional - allow customer to control the merchant account that will process the transaction in business that have multiple services / legal entities
+                                      //.SecureFormat(SecureFormat.Value) // optional - use a different secure format only when required by the merchant account
+                    .MetaData(new Dictionary<string, string>
+                    {
+                        ["OrderNumber"] = invoiceNum.ToString(),
+                        ["Delivered"] = "Y"
+                    }); // optional - store data object to associate with the transaction
+
+                var selectedCapabilities = Capability.Select(s => s.Value).ToArray();
+                bool capabilityChanged = !selectedCapabilities.ContainsSame(TerminalConfig.Instance.PaymentEngine.PaymentCapabilities.ToArray());
+
+                if (capabilityChanged)
+                {
+                    txnBuilder.Capabilities(selectedCapabilities);
+                    txnBuilder.FallbackReason(TransactionFallbackReason.Value);
+
+                    if (TransactionFallbackReason.Value == QuantumPay.Client.Model.TransactionFallbackReason.None)
+                    {
+                        StopEmv(this, EventArgs.Empty);
+                        IsTransactionInProgress = false;
+                        IsConnectBtnEnabled = false;
+                        ScanTypeLabel = "";
+                        await App.Current.MainPage.DisplayAlert("Fallback reason missing", "Please select fallback reason", "Cancel");
+                        return null;
+                    }
+                }
+
+                switch (TransactionType.Value)
+                {
+                    case QuantumPay.Client.Model.TransactionType.Sale:
+                        txnBuilder.Sale();
+                        break;
+                    case QuantumPay.Client.Model.TransactionType.Auth:
+                        txnBuilder.Auth();
+                        break;
+                    case QuantumPay.Client.Model.TransactionType.Capture:
+                        txnBuilder.Capture(TransactionId);
+                        break;
+                    case QuantumPay.Client.Model.TransactionType.Refund:
+                        txnBuilder.Refund(TransactionId);
+                        break;
+                    case QuantumPay.Client.Model.TransactionType.Undo:
+                        txnBuilder.Undo(TransactionId);
+                        break;
+                    case QuantumPay.Client.Model.TransactionType.Void:
+                        txnBuilder.Void(TransactionId);
+                        break;
+                    case QuantumPay.Client.Model.TransactionType.NotSet:
+                        break;
+                }
+
+                SetPaymentEngineHanders();
+
+                var txn = txnBuilder.Build();
+                var result = await PaymentEngine.StartTransactionAsync(txn);`
 
