@@ -89,3 +89,36 @@ Also in your project's **Info.plist** file we need to add the four (4) privacy t
 </p>
 
 ---
+
+## Processing a Payment
+At this point, your Visual Studio project should be configured and ready to use the QuantumPay libraries. This next section will take you through some initial setup all the way to processing a payment.
+
+### Initialize the SDKs
+The SDKs need to be initialized with the correct keys provided by Infinite Peripherals. This step is important and should be the first code to run before using other functions from the SDKs. Create tenant in FInishedLaunching function in AppDelegate.cs
+
+```C#
+// Create tenant
+QuantumPay.Client.Tenant tenant = new QuantumPay.Client.Tenant(Config.HostKey, Config.TenantKey);
+
+// Initialize QuantumPay
+InfinitePeripherals.Init(Config.DeveloperKey, tenant);
+```
+
+### Create Payment Device
+Now initialize a payment device that matches the hardware you are using. The current supported payment devices are: QPC150, QPC250, QPP400, QPP450, QPR250, QPR300. Note that this step is different for payment devices that are connected with Bluetooth LE.
+- Initialize QPC150, QPC250 (Lightning connector). 
+
+AppDelegate.cs:
+
+```C#
+var infineaPay = new InfineaPayCloudPaymentEngine
+{
+    Installer = builder =>
+    {
+        builder.AddPeripheral<Qpc150>(autoConnect: false, capabilities: PeripheralCapability.CardMagStripe);
+    }
+};
+```
+
+---
+
