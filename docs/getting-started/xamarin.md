@@ -51,7 +51,7 @@ Before we jump into the code we need to make sure your project is properly confi
 2. Import the QuantumPay frameworks into your folder.
 
 <p align="center">
-  <img src="https://www.infineadev.com/docs/assets/images/walkthroughs/xamarin-1.png" style='border:1px solid #000000' />
+  <img src="https://github.com/InfinitePeripherals/QuantumPay/blob/69f4b1c932ee6042b3a09ff0bf29571ee558d234/docs/assets/images/walkthroughs/xamarin-1.png" style='border:1px solid #000000' />
 </p>
 
 
@@ -70,7 +70,7 @@ com.datecs.pinpad
 
 ```
 <p align="center">
-  <img src="https://www.infineadev.com/lucas/qpay/ios-5.png" style='border:1px solid #000000' />
+  <img src="https://github.com/InfinitePeripherals/QuantumPay/blob/69f4b1c932ee6042b3a09ff0bf29571ee558d234/docs/assets/images/walkthroughs/xamarin-2.png" style='border:1px solid #000000' />
 </p>
 
 ### Add Privacy entries to Info.plist
@@ -85,7 +85,7 @@ Also in your project's **Info.plist** file we need to add the four (4) privacy t
 ```
 
 <p align="center">
-  <img src="https://www.infineadev.com/lucas/qpay/ios-6.png" style='border:1px solid #000000' />
+  <img src=https://github.com/InfinitePeripherals/QuantumPay/blob/69f4b1c932ee6042b3a09ff0bf29571ee558d234/docs/assets/images/walkthroughs/xamarin-3.png" style='border:1px solid #000000' />
 </p>
 
 ---
