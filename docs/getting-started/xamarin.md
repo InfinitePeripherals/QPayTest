@@ -256,7 +256,7 @@ public void ConnectToPeripheral()
 ### Create an Invoice
 Time to create an invoice. This invoice object holds information about a purchase order and the items in the order.
 
-```c#
+```C#
 var invoiceBuilder = PaymentEngine.BuildInvoice(InvoiceNum)
                     .CompanyName(CompanyName)
                     .PurchaseOrderReference(PurchaseOrderReference);
@@ -280,7 +280,8 @@ var invoiceBuilder = PaymentEngine.BuildInvoice(InvoiceNum)
 
 The transaction object holds information about the invoice, the total amount for the transaction and the type of the transaction (e.g.: sale, auth, refund, etc.)
 
-`var txnBuilder = PaymentEngine.BuildTransaction(invoice)
+```C#
+var txnBuilder = PaymentEngine.BuildTransaction(invoice)
                     .Amount(amount, SelectedCurrency.Currency)
                     .Reference(Reference) // required - unique transaction reference, such as your application order number
                     .DateTime(DateTimeOffset.Now) // optional - defaults to the current local date time
@@ -338,5 +339,5 @@ The transaction object holds information about the invoice, the total amount for
                 SetPaymentEngineHanders();
 
                 var txn = txnBuilder.Build();
-                var result = await PaymentEngine.StartTransactionAsync(txn);`
+                var result = await PaymentEngine.StartTransactionAsync(txn);
 ```
