@@ -150,7 +150,7 @@ public async Task CreatePaymentEngine()
     PeripheralFactory = SamplePeripheral.Wrap(CreatePeripheralFactory());
 
     // build the payment engine
-    PaymentEngine = await PaymentEngine.Builder
+    PaymentEngine = PaymentEngine.Builder
         .Server(ServerConfiguration.Configuration) // optional - the default production server is used if not provided
         .SetQueueStrategy(QueueStrategyMode.Value) // optional - call when Store and Forward will be used, options available: Disabled, WhenOffline, Always, AlwaysBatch // default is AlwaysBatch
         .RegistrationCredentials(DeviceAdministrator.Username, DeviceAdministrator.Password) // optional - only used to register the device, not required if the device is already registered with the server
