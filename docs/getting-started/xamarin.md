@@ -51,7 +51,7 @@ Before we jump into the code we need to make sure your project is properly confi
 2. Import the QuantumPay frameworks into your folder.
 
 <p align="center">
-  <img src="https://www.infineadev.com/lucas/qpay/ios-1.png" style='border:1px solid #000000' />
+  <img src="https://www.infineadev.com/docs/assets/images/walkthroughs/xamarin-1.png" style='border:1px solid #000000' />
 </p>
 
 
