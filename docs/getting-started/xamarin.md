@@ -336,9 +336,7 @@ var txnBuilder = PaymentEngine.BuildTransaction(invoice)
                     case QuantumPay.Client.Model.TransactionType.NotSet:
                         break;
                 }
-
-                SetPaymentEngineHanders();
-
+                
                 var txn = txnBuilder.Build();
 ```
 
