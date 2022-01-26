@@ -275,6 +275,7 @@ var invoiceBuilder = PaymentEngine.BuildInvoice(InvoiceNum)
                     var invoice = invoiceBuilder.CalculateTotals().Build();
                 
 ```
+---
 
 ### Create a Transaction
 
@@ -341,11 +342,15 @@ var txnBuilder = PaymentEngine.BuildTransaction(invoice)
                 var txn = txnBuilder.Build();
 ```
 
+---
+
 ### Start Transaction
 
 Now that everything is ready we can start the transaction and take payment. Watch the handler messages and status updates to track the transaction throughout the process.
 
 `return await PaymentEngine.StartTransactionAsync(txn);`
+
+---
 
 ### Transaction Receipt
 
@@ -358,6 +363,9 @@ transactionResult.receipt?.customerReceiptUrl
 // The url for merchant receipt
 transactionResult.receipt?.merchantReceiptUrl
 ```
+
+---
+
 ### Disconnect Payment Device
 Now that the transaction is complete you are free to disconnect the payment device if you wish. Please note that this should not be called before or during the transaction process.
 
