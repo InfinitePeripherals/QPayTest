@@ -88,10 +88,10 @@ Also in your project's **Info.plist** file we need to add the four (4) privacy t
   <img src="https://github.com/InfinitePeripherals/QuantumPay/blob/3316806a563f383c0fd0291ce33a16d0334cee54/docs/assets/images/walkthroughs/xamarin-3.png" style='border:1px solid #000000' />
 </p>
 
----
-
 ## Processing a Payment
 At this point, your Visual Studio project should be configured and ready to use the QuantumPay libraries. This next section will take you through some initial setup all the way to processing a payment.
+
+---
 
 ### Initialize the SDKs
 The SDKs need to be initialized with the correct keys provided by Infinite Peripherals. This step is important and should be the first code to run before using other functions from the SDKs. Create tenant in FInishedLaunching function in AppDelegate.cs
@@ -103,6 +103,8 @@ QuantumPay.Client.Tenant tenant = new QuantumPay.Client.Tenant(Config.HostKey, C
 // Initialize QuantumPay
 InfinitePeripherals.Init(Config.DeveloperKey, tenant);
 ```
+
+---
 
 ### Create Payment Device
 Now initialize a payment device that matches the hardware you are using. The current supported payment devices are: QPC150, QPC250, QPP400, QPP450, QPR250, QPR300. Note that this step is different for payment devices that are connected with Bluetooth LE.
@@ -169,9 +171,7 @@ public async Task CreatePaymentEngine()
 }
 ```
 
----
-
-### Setup Handlers
+## Setup Handlers
 Once the `PaymentEngine` is created, you can use it's handlers to track the operation. The `PaymentEngine` handlers will get called throughout the payment process and will return you the current state of the transaction. You can set these handlers in the completion block of the previous step.
 
 `PeripheralStateHandler` will get called when the state of the peripheral changes during the transaction process. The PeripheralState represents the current state of the peripheral as reported by the peripheral device itself. These include “idle”, “ready”, “contactCardInserted” etc.
@@ -204,9 +204,7 @@ private void SetPaymentEngineHandlers()
 }
 ```
 
----
-
-### Connect to Payment Device
+## Connect to Payment Device
 Now that your payment engine is configured and your handlers are set up, lets connect to the payment device. Please make sure the device is attached and turned on. We need to connect to the payment device prior to starting a transaction. The connection state will be returned to the `ConnectionStateHandler` that we set up previously. If you didn't set autoConnect when creating the payment engine, you will need to call `connect()` before starting a transaction.
 
 `ConnectionStateHandler` will get called when the connection state of the payment device changes between connecting, connected, and disconnected. It is important to make sure your device is connected before attempting to start a transaction.
@@ -251,9 +249,7 @@ public void ConnectToPeripheral()
 }
 ```
 
----
-
-### Create an Invoice
+## Create an Invoice
 Time to create an invoice. This invoice object holds information about a purchase order and the items in the order.
 
 ```C#
@@ -362,7 +358,4 @@ transactionResult.receipt?.merchantReceiptUrl
 Now that the transaction is complete you are free to disconnect the payment device if you wish. Please note that this should not be called before or during the transaction process.
 
 `PaymentEngine.Disconnect()`
-
-
-
 
