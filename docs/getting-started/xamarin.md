@@ -89,5 +89,3 @@ Also in your project's **Info.plist** file we need to add the four (4) privacy t
 </p>
 
 ---
-
-![image](https://user-images.githubusercontent.com/98154474/151145023-d051d36d-d51d-47f4-9152-84518a016adc.png)
