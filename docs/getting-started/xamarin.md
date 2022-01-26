@@ -120,5 +120,25 @@ var infineaPay = new InfineaPayCloudPaymentEngine
 };
 ```
 
+Alternatively, you can create a ‘Payment Factory’ and pass this in to the payment engine when it’s created. The following example also demonstrates how to connect to a Bluetooth device. Initialize QPP400, QPP450, QPR250, QPR300 (Bluetooth LE) by supplying its serial number so the `PaymentEngine` can search for and connect to it. On first connection, the app will prompt you to pair the device. Be sure to press "OK" when the pop-up is shown. To complete the pairing, if using a QPR device, press the small button on top of the device opposite the power button. If using a QPP device, press the green check mark button on the bottom right of the keypad.
+
+
+
+```C#
+// The device serial number is found on the label on the device.
+public Func<IPeripheral> CreatePeripheralFactory()
+        {
+            if (App.Instance.PeripheralInfo.RequiresPairingSerialNumber(Peripheral.Type))
+            {
+                return App.Instance.PeripheralInfo.CreateFactory(Peripheral.Type, “15523444”);
+            }
+
+            return App.Instance.PeripheralInfo.CreateFactory(Peripheral.Type);
+        }```
+
+### Create Payment Engine
+
+The payment engine is the main object that you will interact with to send transactions and receive callbacks.
+
 ---
 
