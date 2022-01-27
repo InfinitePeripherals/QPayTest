@@ -221,25 +221,14 @@ public void ConnectToPeripheral()
         {
             case ConnectionState.Disconnected:
                 ConnectionMessage = "Disconnected";
-                IsReady = false;
-                IsConnectBtnEnabled = true;
                 break;
 
             case ConnectionState.Connecting:
                 ConnectionMessage = "Connecting";
-                IsReady = false;
-                IsConnectBtnEnabled = false;
                 break;
 
             case ConnectionState.Connected:
-                if (PaymentEngine.IsTestMode)
-                    ConnectionMessage = "Connected - Test Mode";
-                else
-                    ConnectionMessage = "Connected - Production Mode";
-                IsReady = true;
-                BatteryPercentage = peripheral.BatteryPercentage + "%";
-                IsConnectBtnEnabled = false;
-                AddPeripheralInfoOption();
+                ConnectionMessage = "Connected";
                 break;
         }
     });
@@ -282,56 +271,16 @@ var txnBuilder = PaymentEngine.BuildTransaction(invoice)
                     .Amount(amount, SelectedCurrency.Currency)
                     .Reference(Reference) // required - unique transaction reference, such as your application order number
                     .DateTime(DateTimeOffset.Now) // optional - defaults to the current local date time
+                    .Sale(); // options: .Sale(), .Auth(), .Capture(TransactionId), .Refund(TransactionId), .Undo(TransactionId), .Void(TransactionId)
+                    .Capabilities(selectedCapabilities);
+                    .FallbackReason(TransactionFallbackReason.Value);
                     .Service(Service) // optional - allow customer to control the merchant account that will process the transaction in business that have multiple services / legal entities
                                       //.SecureFormat(SecureFormat.Value) // optional - use a different secure format only when required by the merchant account
                     .MetaData(new Dictionary<string, string>
                     {
                         ["OrderNumber"] = invoiceNum.ToString(),
                         ["Delivered"] = "Y"
-                    }); // optional - store data object to associate with the transaction
-
-                var selectedCapabilities = Capability.Select(s => s.Value).ToArray();
-                bool capabilityChanged = !selectedCapabilities.ContainsSame(TerminalConfig.Instance.PaymentEngine.PaymentCapabilities.ToArray());
-
-                if (capabilityChanged)
-                {
-                    txnBuilder.Capabilities(selectedCapabilities);
-                    txnBuilder.FallbackReason(TransactionFallbackReason.Value);
-
-                    if (TransactionFallbackReason.Value == QuantumPay.Client.Model.TransactionFallbackReason.None)
-                    {
-                        StopEmv(this, EventArgs.Empty);
-                        IsTransactionInProgress = false;
-                        IsConnectBtnEnabled = false;
-                        ScanTypeLabel = "";
-                        await App.Current.MainPage.DisplayAlert("Fallback reason missing", "Please select fallback reason", "Cancel");
-                        return null;
-                    }
-                }
-
-                switch (TransactionType.Value)
-                {
-                    case QuantumPay.Client.Model.TransactionType.Sale:
-                        txnBuilder.Sale();
-                        break;
-                    case QuantumPay.Client.Model.TransactionType.Auth:
-                        txnBuilder.Auth();
-                        break;
-                    case QuantumPay.Client.Model.TransactionType.Capture:
-                        txnBuilder.Capture(TransactionId);
-                        break;
-                    case QuantumPay.Client.Model.TransactionType.Refund:
-                        txnBuilder.Refund(TransactionId);
-                        break;
-                    case QuantumPay.Client.Model.TransactionType.Undo:
-                        txnBuilder.Undo(TransactionId);
-                        break;
-                    case QuantumPay.Client.Model.TransactionType.Void:
-                        txnBuilder.Void(TransactionId);
-                        break;
-                    case QuantumPay.Client.Model.TransactionType.NotSet:
-                        break;
-                }
+                    }); // optional - store data object to associate with the transactio
                 
                 var txn = txnBuilder.Build();
 ```
