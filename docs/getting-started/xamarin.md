@@ -252,7 +252,7 @@ var invoiceBuilder = PaymentEngine.BuildInvoice(InvoiceNum)
                                                       .SaleCode(invoiceItem.SaleCode)
                                                       .UnitPrice(invoiceItem.UnitPrice)
                                                       .Quantity(invoiceItem.Quantity)
-                                                      //.UnitOfMeasure(invoiceItem.UnitOfMeasureCode) //todo: task #3235
+                                                      //.UnitOfMeasure(invoiceItem.UnitOfMeasureCode)
                                                     );
                                   }
 
