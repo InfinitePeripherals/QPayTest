@@ -88,10 +88,12 @@ Also in your project's **Info.plist** file we need to add the four (4) privacy t
   <img src="https://github.com/InfinitePeripherals/QuantumPay/blob/3316806a563f383c0fd0291ce33a16d0334cee54/docs/assets/images/walkthroughs/xamarin-3.png" style='border:1px solid #000000' />
 </p>
 
+---
+
 ## Processing a Payment
 At this point, your Visual Studio project should be configured and ready to use the QuantumPay libraries. This next section will take you through some initial setup all the way to processing a payment.
 
----
+
 
 ### Initialize the SDKs
 The SDKs need to be initialized with the correct keys provided by Infinite Peripherals. This step is important and should be the first code to run before using other functions from the SDKs. Create tenant in FInishedLaunching function in AppDelegate.cs
@@ -103,8 +105,6 @@ QuantumPay.Client.Tenant tenant = new QuantumPay.Client.Tenant(Config.HostKey, C
 // Initialize QuantumPay
 InfinitePeripherals.Init(Config.DeveloperKey, tenant);
 ```
-
----
 
 ### Create Payment Device
 Now initialize a payment device that matches the hardware you are using. The current supported payment devices are: QPC150, QPC250, QPP400, QPP450, QPR250, QPR300. Note that this step is different for payment devices that are connected with Bluetooth LE.
@@ -123,7 +123,6 @@ var infineaPay = new InfineaPayCloudPaymentEngine
 ```
 
 Alternatively, you can create a ‘Payment Factory’ and pass this in to the payment engine when it’s created. The following example also demonstrates how to connect to a Bluetooth device. Initialize QPP400, QPP450, QPR250, QPR300 (Bluetooth LE) by supplying its serial number so the `PaymentEngine` can search for and connect to it. On first connection, the app will prompt you to pair the device. Be sure to press "OK" when the pop-up is shown. To complete the pairing, if using a QPR device, press the small button on top of the device opposite the power button. If using a QPP device, press the green check mark button on the bottom right of the keypad.
-
 
 
 ```C#
@@ -260,7 +259,6 @@ var invoiceBuilder = PaymentEngine.BuildInvoice(InvoiceNum)
 var invoice = invoiceBuilder.CalculateTotals().Build();
                 
 ```
----
 
 ### Create a Transaction
 
