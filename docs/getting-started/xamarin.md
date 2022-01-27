@@ -207,22 +207,17 @@ public void ConnectToPeripheral()
 Time to create an invoice. This invoice object holds information about a purchase order and the items in the order.
 
 ```C#
-var invoiceBuilder = PaymentEngine.BuildInvoice(InvoiceNum)
-                                  .CompanyName(CompanyName)
-                                  .PurchaseOrderReference(PurchaseOrderReference);
-
-                                  foreach (var invoiceItem in InvoiceItems)
-                                  {
-                                      invoiceBuilder.AddItem(item => item.ProductCode(invoiceItem.ProductCode)
-                                                      .Description(invoiceItem.Description)
-                                                      .SaleCode(invoiceItem.SaleCode)
-                                                      .UnitPrice(invoiceItem.UnitPrice)
-                                                      .Quantity(invoiceItem.Quantity)
-                                                      //.UnitOfMeasure(invoiceItem.UnitOfMeasureCode)
-                                                    );
-                                  }
-
-var invoice = invoiceBuilder.CalculateTotals().Build();
+var invoice = paymentEngine.BuildInvoice(invoiceNum.ToString())
+                .CompanyName("ACME SUPPLIES INC.")
+                .PurchaseOrderReference("PO1234")
+                .AddItem("SKU1", "Discount Voucher for Return Visit", 0M)
+                .AddItem(item => item.ProductCode("SKU2")
+                    .Description("In Store Item")
+                    .SaleCode(SaleCode.Sale)
+                    .Price(amount)
+                    .UnitOfMeasure(UnitOfMeasure.Each))
+                .CalculateTotals()
+                .Build();
                 
 ```
 
@@ -231,22 +226,14 @@ var invoice = invoiceBuilder.CalculateTotals().Build();
 The transaction object holds information about the invoice, the total amount for the transaction and the type of the transaction (e.g.: sale, auth, refund, etc.)
 
 ```C#
-var txnBuilder = PaymentEngine.BuildTransaction(invoice)
-                              .Amount(amount, SelectedCurrency.Currency)
-                              .Reference(Reference) // required - unique transaction reference, such as your application order number
-                              .DateTime(DateTimeOffset.Now) // optional - defaults to the current local date time
-                              .Sale(); // options: .Sale(), .Auth(), .Capture(TransactionId), .Refund(TransactionId), .Undo(TransactionId), .Void(TransactionId)
-                              .Capabilities(selectedCapabilities);
-                              .FallbackReason(TransactionFallbackReason.Value);
-                              .Service(Service) // optional - allow customer to control the merchant account that will process the transaction in business that have multiple services / legal entities
-                                                //.SecureFormat(SecureFormat.Value) // optional - use a different secure format only when required by the merchant account
-                              .MetaData(new Dictionary<string, string>
-                              {
-                                  ["OrderNumber"] = invoiceNum.ToString(),
-                                  ["Delivered"] = "Y"
-                              }); // optional - store data object to associate with the transactio
-                
-var txn = txnBuilder.Build();
+var txn = paymentEngine.BuildTransaction(invoice)
+                .Sale()
+                .Amount(amount, currency)
+                .Reference(reference) // required - unique transaction reference, such as your application order number
+                .DateTime(DateTimeOffset.Now) // optional - defaults to the current local date time
+                .Service(SampleConfig.Service) // optional - allow customer to control the merchant account that will process the transaction in business that have multiple services / legal entities
+                .MetaData(new Dictionary<string, string> {{"OrderNumber", invoiceNum.ToString()}, {"Delivered", "Y"}}) // optional - store data object to associate with the transaction
+                .Build();
 ```
 
 ### Start transaction
