@@ -115,7 +115,7 @@ The payment engine is the main object that you will interact with to send transa
 ```C#
 public async Task CreatePaymentEngine()
 {
-    paymentEngine = await PaymentEngine.Builder
+    var paymentEngine = await PaymentEngine.Builder
                                        .AssignLocationsToTransactionsUsingProvider(SampleConfig.LocationProvider()) // optional - assign locations to transactions
                                        //.AssignLocationsToTransactions() // optional - use precise tracking for assigning locations
                                        .Server(ServerEnvironment.Test) // optional - the default production server is used if not provided
