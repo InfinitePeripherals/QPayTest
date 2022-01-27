@@ -41,7 +41,7 @@ Learn how to set up your Xamarin app to use QuantumPay to process payment transa
 
 ---
 
-## Project Setup
+## Project setup
 Before we jump into the code we need to make sure your project is properly configured to use the QuantumPay frameworks. Follow the steps below to get you set up.
 
 ### Adding the QuantumPay SDKs
@@ -73,7 +73,7 @@ com.datecs.pinpad
   <img src="https://github.com/InfinitePeripherals/QuantumPay/blob/69f4b1c932ee6042b3a09ff0bf29571ee558d234/docs/assets/images/walkthroughs/xamarin-2.png" style='border:1px solid #000000' />
 </p>
 
-### Add Privacy entries to Info.plist
+### Add privacy entries to Info.plist
 
 Also in your project's **Info.plist** file we need to add the four (4) privacy tags listed below. You can enter any string value you want or copy what we have below. Note: in Xcode 13.0+ this has been moved to the "Info" tab in your project's settings.
 
@@ -90,7 +90,7 @@ Also in your project's **Info.plist** file we need to add the four (4) privacy t
 
 ---
 
-## Processing a Payment
+## Processing a payment
 At this point, your Visual Studio project should be configured and ready to use the QuantumPay libraries. This next section will take you through some initial setup all the way to processing a payment.
 
 
@@ -106,7 +106,7 @@ QuantumPay.Client.Tenant tenant = new QuantumPay.Client.Tenant(Config.HostKey, C
 InfinitePeripherals.Init(Config.DeveloperKey, tenant);
 ```
 
-### Create Payment Device
+### Create payment device
 Now initialize a payment device that matches the hardware you are using. The current supported payment devices are: QPC150, QPC250, QPP400, QPP450, QPR250, QPR300. Note that this step is different for payment devices that are connected with Bluetooth LE.
 - Initialize QPC150, QPC250 (Lightning connector). 
 
@@ -140,7 +140,7 @@ public Func<IPeripheral> CreatePeripheralFactory()
 
 ---
 
-### Create Payment Engine
+### Create payment engine
 
 The payment engine is the main object that you will interact with to send transactions and receive callbacks.
 
@@ -170,7 +170,7 @@ public async Task CreatePaymentEngine()
 }
 ```
 
-### Setup Handlers
+### Setup handlers
 Once the `PaymentEngine` is created, you can use it's handlers to track the operation. The `PaymentEngine` handlers will get called throughout the payment process and will return you the current state of the transaction. You can set these handlers in the completion block of the previous step.
 
 `PeripheralStateHandler` will get called when the state of the peripheral changes during the transaction process. The PeripheralState represents the current state of the peripheral as reported by the peripheral device itself. These include “idle”, “ready”, “contactCardInserted” etc.
@@ -203,7 +203,7 @@ private void SetPaymentEngineHandlers()
 }
 ```
 
-### Connect to Payment Device
+### Connect to payment device
 Now that your payment engine is configured and your handlers are set up, lets connect to the payment device. Please make sure the device is attached and turned on. We need to connect to the payment device prior to starting a transaction. The connection state will be returned to the `ConnectionStateHandler` that we set up previously. If you didn't set autoConnect when creating the payment engine, you will need to call `connect()` before starting a transaction.
 
 `ConnectionStateHandler` will get called when the connection state of the payment device changes between connecting, connected, and disconnected. It is important to make sure your device is connected before attempting to start a transaction.
@@ -237,7 +237,7 @@ public void ConnectToPeripheral()
 }
 ```
 
-### Create an Invoice
+### Create an invoice
 Time to create an invoice. This invoice object holds information about a purchase order and the items in the order.
 
 ```C#
@@ -260,7 +260,7 @@ var invoice = invoiceBuilder.CalculateTotals().Build();
                 
 ```
 
-### Create a Transaction
+### Create a transaction
 
 The transaction object holds information about the invoice, the total amount for the transaction and the type of the transaction (e.g.: sale, auth, refund, etc.)
 
@@ -283,13 +283,13 @@ var txnBuilder = PaymentEngine.BuildTransaction(invoice)
 var txn = txnBuilder.Build();
 ```
 
-### Start Transaction
+### Start transaction
 
 Now that everything is ready we can start the transaction and take payment. Watch the handler messages and status updates to track the transaction throughout the process.
 
 `return await PaymentEngine.StartTransactionAsync(txn);`
 
-### Transaction Receipt
+### Transaction receipt
 
 Once the transaction is completed and approved, the receipt is sent to the TransactionResultHandler callback.
 
@@ -301,7 +301,7 @@ transactionResult.receipt?.customerReceiptUrl
 transactionResult.receipt?.merchantReceiptUrl
 ```
 
-## Disconnect Payment Device
+## Disconnect payment device
 Now that the transaction is complete you are free to disconnect the payment device if you wish. Please note that this should not be called before or during the transaction process.
 
 `PaymentEngine.Disconnect()`
@@ -312,7 +312,7 @@ Now that the transaction is complete you are free to disconnect the payment devi
 
 It is possible to connect any of our bluetooth devices to your app using the camera to scan the peripheral barcode.
 
-### Add Permisions to info.plist
+### Add permisions to Info.plist
 
 First you will need to allow the app to use the camera and also enable bluetooth, do this by adding the following code to the info.plist
 
@@ -325,7 +325,7 @@ First you will need to allow the app to use the camera and also enable bluetooth
 <string>Please allow the camera to be used for scanning barcodes</string>
 ```
 
-### Implement Scanner Page
+### Implement scanner page
 
 The simplist way to achieve this is to use a package, for this example we are using zxing scanner 'https://www.nuget.org/packages/ZXing.Net.Mobile.Forms/'. You can however create your own scanner implementation if you so wish. 
 
