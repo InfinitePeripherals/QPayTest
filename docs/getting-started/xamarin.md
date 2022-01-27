@@ -153,25 +153,25 @@ public async Task CreatePaymentEngine()
 
     // build the payment engine
     PaymentEngine = PaymentEngine.Builder
-        .Server(ServerConfiguration.Configuration) // optional - the default production server is used if not provided
-        .SetQueueStrategy(QueueStrategyMode.Value) // optional - call when Store and Forward will be used, options available: Disabled, WhenOffline, Always, AlwaysBatch // default is AlwaysBatch
-        .RegistrationCredentials(DeviceAdministrator.Username, DeviceAdministrator.Password) // optional - only used to register the device, not required if the device is already registered with the server
-        .PosId(PosId) // required - the unique POS ID for your system
-        .EmvApplicationSelectionStrategy(EmvApplicationSelectionStrategy.Value)
-        .TransactionTimeout(TimeSpan.FromSeconds(transactionTimeout.Timeout)) // optional - specify the duration that the peripheral will wait for the customer to complete the payment
-        .Logger(new ConsoleLogger()) // optional - add your own logger implementation
-        .UnhandledExceptionHandler(ex =>
-        {
-            // optional - add your own exception handling here - such as crash logger or error dialog, etc
-            // by default, the engine will log the errors using the logger implementation
-            Console.WriteLine($"UNHANDLED EXCEPTION:: {ex}");
-        })
-        .AddPeripheral(PeripheralFactory, autoConnect: false) // required - add your peripheral
-        .BuildAsync();
+                                 .Server(ServerConfiguration.Configuration) // optional - the default production server is used if not provided
+                                 .SetQueueStrategy(QueueStrategyMode.Value) // optional - call when Store and Forward will be used, options available: Disabled, WhenOffline, Always, AlwaysBatch // default is AlwaysBatch
+                                 .RegistrationCredentials(DeviceAdministrator.Username, DeviceAdministrator.Password) // optional - only used to register the device, not required if the device is already registered with the server
+                                 .PosId(PosId) // required - the unique POS ID for your system
+                                 .EmvApplicationSelectionStrategy(EmvApplicationSelectionStrategy.Value)
+                                 .TransactionTimeout(TimeSpan.FromSeconds(transactionTimeout.Timeout)) // optional - specify the duration that the peripheral will wait for the customer to complete the payment
+                                 .Logger(new ConsoleLogger()) // optional - add your own logger implementation
+                                 .UnhandledExceptionHandler(ex =>
+                                  {
+                                      // optional - add your own exception handling here - such as crash logger or error dialog, etc
+                                      // by default, the engine will log the errors using the logger implementation
+                                      Console.WriteLine($"UNHANDLED EXCEPTION:: {ex}");
+                                  })
+                                 .AddPeripheral(PeripheralFactory, autoConnect: false) // required - add your peripheral
+                                 .BuildAsync();
 }
 ```
 
-## Setup Handlers
+### Setup Handlers
 Once the `PaymentEngine` is created, you can use it's handlers to track the operation. The `PaymentEngine` handlers will get called throughout the payment process and will return you the current state of the transaction. You can set these handlers in the completion block of the previous step.
 
 `PeripheralStateHandler` will get called when the state of the peripheral changes during the transaction process. The PeripheralState represents the current state of the peripheral as reported by the peripheral device itself. These include “idle”, “ready”, “contactCardInserted” etc.
@@ -204,7 +204,7 @@ private void SetPaymentEngineHandlers()
 }
 ```
 
-## Connect to Payment Device
+### Connect to Payment Device
 Now that your payment engine is configured and your handlers are set up, lets connect to the payment device. Please make sure the device is attached and turned on. We need to connect to the payment device prior to starting a transaction. The connection state will be returned to the `ConnectionStateHandler` that we set up previously. If you didn't set autoConnect when creating the payment engine, you will need to call `connect()` before starting a transaction.
 
 `ConnectionStateHandler` will get called when the connection state of the payment device changes between connecting, connected, and disconnected. It is important to make sure your device is connected before attempting to start a transaction.
@@ -238,26 +238,26 @@ public void ConnectToPeripheral()
 }
 ```
 
-## Create an Invoice
+### Create an Invoice
 Time to create an invoice. This invoice object holds information about a purchase order and the items in the order.
 
 ```C#
 var invoiceBuilder = PaymentEngine.BuildInvoice(InvoiceNum)
-                    .CompanyName(CompanyName)
-                    .PurchaseOrderReference(PurchaseOrderReference);
+                                  .CompanyName(CompanyName)
+                                  .PurchaseOrderReference(PurchaseOrderReference);
 
-                    foreach (var invoiceItem in InvoiceItems)
-                    {
-                        invoiceBuilder.AddItem(item => item.ProductCode(invoiceItem.ProductCode)
-                            .Description(invoiceItem.Description)
-                            .SaleCode(invoiceItem.SaleCode)
-                            .UnitPrice(invoiceItem.UnitPrice)
-                            .Quantity(invoiceItem.Quantity)
-                            //.UnitOfMeasure(invoiceItem.UnitOfMeasureCode) //todo: task #3235
-                            );
-                    }
+                                  foreach (var invoiceItem in InvoiceItems)
+                                  {
+                                      invoiceBuilder.AddItem(item => item.ProductCode(invoiceItem.ProductCode)
+                                                      .Description(invoiceItem.Description)
+                                                      .SaleCode(invoiceItem.SaleCode)
+                                                      .UnitPrice(invoiceItem.UnitPrice)
+                                                      .Quantity(invoiceItem.Quantity)
+                                                      //.UnitOfMeasure(invoiceItem.UnitOfMeasureCode) //todo: task #3235
+                                                    );
+                                  }
 
-                    var invoice = invoiceBuilder.CalculateTotals().Build();
+var invoice = invoiceBuilder.CalculateTotals().Build();
                 
 ```
 ---
@@ -268,30 +268,30 @@ The transaction object holds information about the invoice, the total amount for
 
 ```C#
 var txnBuilder = PaymentEngine.BuildTransaction(invoice)
-                    .Amount(amount, SelectedCurrency.Currency)
-                    .Reference(Reference) // required - unique transaction reference, such as your application order number
-                    .DateTime(DateTimeOffset.Now) // optional - defaults to the current local date time
-                    .Sale(); // options: .Sale(), .Auth(), .Capture(TransactionId), .Refund(TransactionId), .Undo(TransactionId), .Void(TransactionId)
-                    .Capabilities(selectedCapabilities);
-                    .FallbackReason(TransactionFallbackReason.Value);
-                    .Service(Service) // optional - allow customer to control the merchant account that will process the transaction in business that have multiple services / legal entities
-                                      //.SecureFormat(SecureFormat.Value) // optional - use a different secure format only when required by the merchant account
-                    .MetaData(new Dictionary<string, string>
-                    {
-                        ["OrderNumber"] = invoiceNum.ToString(),
-                        ["Delivered"] = "Y"
-                    }); // optional - store data object to associate with the transactio
+                              .Amount(amount, SelectedCurrency.Currency)
+                              .Reference(Reference) // required - unique transaction reference, such as your application order number
+                              .DateTime(DateTimeOffset.Now) // optional - defaults to the current local date time
+                              .Sale(); // options: .Sale(), .Auth(), .Capture(TransactionId), .Refund(TransactionId), .Undo(TransactionId), .Void(TransactionId)
+                              .Capabilities(selectedCapabilities);
+                              .FallbackReason(TransactionFallbackReason.Value);
+                              .Service(Service) // optional - allow customer to control the merchant account that will process the transaction in business that have multiple services / legal entities
+                                                //.SecureFormat(SecureFormat.Value) // optional - use a different secure format only when required by the merchant account
+                              .MetaData(new Dictionary<string, string>
+                              {
+                                  ["OrderNumber"] = invoiceNum.ToString(),
+                                  ["Delivered"] = "Y"
+                              }); // optional - store data object to associate with the transactio
                 
-                var txn = txnBuilder.Build();
+var txn = txnBuilder.Build();
 ```
 
-## Start Transaction
+### Start Transaction
 
 Now that everything is ready we can start the transaction and take payment. Watch the handler messages and status updates to track the transaction throughout the process.
 
 `return await PaymentEngine.StartTransactionAsync(txn);`
 
-## Transaction Receipt
+### Transaction Receipt
 
 Once the transaction is completed and approved, the receipt is sent to the TransactionResultHandler callback.
 
@@ -303,7 +303,7 @@ transactionResult.receipt?.customerReceiptUrl
 transactionResult.receipt?.merchantReceiptUrl
 ```
 
-## Disconnect Payment Device
+### Disconnect Payment Device
 Now that the transaction is complete you are free to disconnect the payment device if you wish. Please note that this should not be called before or during the transaction process.
 
 `PaymentEngine.Disconnect()`
