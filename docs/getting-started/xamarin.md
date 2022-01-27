@@ -106,38 +106,6 @@ QuantumPay.Client.Tenant tenant = new QuantumPay.Client.Tenant(Config.HostKey, C
 InfinitePeripherals.Init(Config.DeveloperKey, tenant);
 ```
 
-### Create payment device
-Now initialize a payment device that matches the hardware you are using. The current supported payment devices are: QPC150, QPC250, QPP400, QPP450, QPR250, QPR300. Note that this step is different for payment devices that are connected with Bluetooth LE.
-- Initialize QPC150, QPC250 (Lightning connector). 
-
-AppDelegate.cs:
-
-```C#
-var infineaPay = new InfineaPayCloudPaymentEngine
-{
-    Installer = builder =>
-    {
-        builder.AddPeripheral<Qpc150>(autoConnect: false, capabilities: PeripheralCapability.CardMagStripe);
-    }
-};
-```
-
-Alternatively, you can create a ‘Payment Factory’ and pass this in to the payment engine when it’s created. The following example also demonstrates how to connect to a Bluetooth device. Initialize QPP400, QPP450, QPR250, QPR300 (Bluetooth LE) by supplying its serial number so the `PaymentEngine` can search for and connect to it. On first connection, the app will prompt you to pair the device. Be sure to press "OK" when the pop-up is shown. To complete the pairing, if using a QPR device, press the small button on top of the device opposite the power button. If using a QPP device, press the green check mark button on the bottom right of the keypad.
-
-
-```C#
-// The device serial number is found on the label on the device.
-public Func<IPeripheral> CreatePeripheralFactory()
-{
-    if (App.Instance.PeripheralInfo.RequiresPairingSerialNumber(Peripheral.Type))
-    {
-        return App.Instance.PeripheralInfo.CreateFactory(Peripheral.Type, “15523444”);
-    }
-
-    return App.Instance.PeripheralInfo.CreateFactory(Peripheral.Type);
-}
-```
-
 ---
 
 ### Create payment engine
@@ -165,7 +133,7 @@ public async Task CreatePaymentEngine()
                                       // by default, the engine will log the errors using the logger implementation
                                       Console.WriteLine($"UNHANDLED EXCEPTION:: {ex}");
                                   })
-                                 .AddPeripheral(PeripheralFactory, autoConnect: false) // required - add your peripheral
+                                 .AddPeripheral<Qpc150>(autoConnect: false, capabilities: PeripheralCapability.CardMagStripe); // required - add your peripheral
                                  .BuildAsync();
 }
 ```
