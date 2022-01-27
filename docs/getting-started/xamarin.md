@@ -122,7 +122,6 @@ public async Task CreatePaymentEngine()
                                        .RegistrationCredentials(SampleConfig.Username, SampleConfig.Password) // optional - only used to register the device, not required if the device is already registered with the server
                                        .PosId(posId) // required - the unique POS ID for your system
                                        .EmvApplicationSelectionStrategy(EmvApplicationSelectionStrategy.Default)
-                                       //.StoreAndForward() // optional - call when Store and Forward will be used
                                        .TransactionTimeout(TimeSpan.FromSeconds(30)) // optional - specify the duration that the peripheral will wait for the customer to complete the payment
                                        .Logger(new ConsoleLogger()) // optional - add your own logger implementation
                                        .UnhandledExceptionHandler(ex =>
