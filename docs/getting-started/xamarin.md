@@ -115,26 +115,24 @@ The payment engine is the main object that you will interact with to send transa
 ```C#
 public async Task CreatePaymentEngine()
 {
-    // create the peripheral factory (invoked by the PaymentEngine)
-    PeripheralFactory = SamplePeripheral.Wrap(CreatePeripheralFactory());
-
-    // build the payment engine
-    PaymentEngine = PaymentEngine.Builder
-                                 .Server(ServerConfiguration.Configuration) // optional - the default production server is used if not provided
-                                 .SetQueueStrategy(QueueStrategyMode.Value) // optional - call when Store and Forward will be used, options available: Disabled, WhenOffline, Always, AlwaysBatch // default is AlwaysBatch
-                                 .RegistrationCredentials(DeviceAdministrator.Username, DeviceAdministrator.Password) // optional - only used to register the device, not required if the device is already registered with the server
-                                 .PosId(PosId) // required - the unique POS ID for your system
-                                 .EmvApplicationSelectionStrategy(EmvApplicationSelectionStrategy.Value)
-                                 .TransactionTimeout(TimeSpan.FromSeconds(transactionTimeout.Timeout)) // optional - specify the duration that the peripheral will wait for the customer to complete the payment
-                                 .Logger(new ConsoleLogger()) // optional - add your own logger implementation
-                                 .UnhandledExceptionHandler(ex =>
-                                  {
-                                      // optional - add your own exception handling here - such as crash logger or error dialog, etc
-                                      // by default, the engine will log the errors using the logger implementation
-                                      Console.WriteLine($"UNHANDLED EXCEPTION:: {ex}");
-                                  })
-                                 .AddPeripheral<Qpc150>(autoConnect: false, capabilities: PeripheralCapability.CardMagStripe); // required - add your peripheral
-                                 .BuildAsync();
+    paymentEngine = await PaymentEngine.Builder
+                                       .AssignLocationsToTransactionsUsingProvider(SampleConfig.LocationProvider()) // optional - assign locations to transactions
+                                       //.AssignLocationsToTransactions() // optional - use precise tracking for assigning locations
+                                       .Server(ServerEnvironment.Test) // optional - the default production server is used if not provided
+                                       .RegistrationCredentials(SampleConfig.Username, SampleConfig.Password) // optional - only used to register the device, not required if the device is already registered with the server
+                                       .PosId(posId) // required - the unique POS ID for your system
+                                       .EmvApplicationSelectionStrategy(EmvApplicationSelectionStrategy.Default)
+                                       //.StoreAndForward() // optional - call when Store and Forward will be used
+                                       .TransactionTimeout(TimeSpan.FromSeconds(30)) // optional - specify the duration that the peripheral will wait for the customer to complete the payment
+                                       .Logger(new ConsoleLogger()) // optional - add your own logger implementation
+                                       .UnhandledExceptionHandler(ex =>
+                                       {
+                                          // optional - add your own exception handling here - such as crash logger or error dialog, etc
+                                          // by default, the engine will log the errors using the logger implementation
+                                          Console.WriteLine($"UNHANDLED EXCEPTION:: {ex}");
+                                       })
+                                       .AddPeripheral(SampleConfig.Peripheral, autoConnect: false) // required - add your peripheral
+                                       .BuildAsync();
 }
 ```
 
