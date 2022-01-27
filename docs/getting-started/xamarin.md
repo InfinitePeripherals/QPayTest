@@ -347,3 +347,26 @@ public void Handle_OnScanResult(Result result)
     });
 }
 ```
+---
+## Scan product barcodes
+
+### Scanning a Barcode
+
+Some of our payment devices also support barcode scanning (e.g., QPC150, QPC250). In order to receive the barcode data, you will need to set your class to conform to the protocol IPCDTDeviceDelegate, to do this set an instance of the IPCDTDeviceDelegateEvents:
+
+```C#
+private IPCDTDeviceDelegateEvents PeripheralEvents { get; } = new IPCDTDeviceDelegateEvents();
+
+PeripheralEvents.BarcodeNSDataType += OnBarcodeScanned;
+```
+
+Next, implement the function that handles the scan and the dat returned
+
+```C#
+private void OnBarcodeScanned(object sender, BarcodeNSDataTypeEventArgs e)
+{
+    Console.WriteLine($"Barcode scanned: {e.Barcode} ({e.Type})");
+    ScanTypeLabel.Text = $"Barcode ({e.Type})";
+    ScanDataLabel.Text = e.Barcode.ToString();
+}
+```
