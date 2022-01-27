@@ -306,3 +306,44 @@ Now that the transaction is complete you are free to disconnect the payment devi
 
 `PaymentEngine.Disconnect()`
 
+---
+
+## Connect bluetooth peripheral to iOS device using the camera
+
+It is possible to connect any of our bluetooth devices to your app using the camera to scan the peripheral barcode.
+
+### Add Permisions to info.plist
+
+First you will need to allow the app to use the camera and also enable bluetooth, do this by adding the following code to the info.plist
+
+```C#
+<key>NSBluetoothPeripheralUsageDescription</key>
+<string>This app communicates with an external peripheral via Bluetooth to enable functionality such as reading cards and scanning barcodes.</string>
+<key>NSBluetoothAlwaysUsageDescription</key>
+<string>This app communicates with an external peripheral via Bluetooth to enable functionality such as reading cards and scanning barcodes.</string>
+<key>NSCameraUsageDescription</key>
+<string>Please allow the camera to be used for scanning barcodes</string>
+```
+
+### Implement Scanner Page
+
+The simplist way to achieve this is to use a package, for this example we are using zxing scanner 'https://www.nuget.org/packages/ZXing.Net.Mobile.Forms/'. You can however create your own scanner implementation if you so wish. 
+
+ScanPage.xaml
+```C#
+<zxing:ZXingScannerView x:Name="ScanView"
+                        OnScanResult="Handle_OnScanResult" 
+                        IsScanning="true" />
+<zxing:ZXingDefaultOverlay Grid.Row="0" />
+```
+
+ScanPage.xaml.cs
+```C#
+public void Handle_OnScanResult(Result result)
+{
+    Device.BeginInvokeOnMainThread(async() =>
+    {
+         BluetoothCode = result.Text;
+    });
+}
+```
