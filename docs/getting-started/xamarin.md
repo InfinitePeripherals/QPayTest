@@ -303,7 +303,7 @@ transactionResult.receipt?.customerReceiptUrl
 transactionResult.receipt?.merchantReceiptUrl
 ```
 
-### Disconnect Payment Device
+## Disconnect Payment Device
 Now that the transaction is complete you are free to disconnect the payment device if you wish. Please note that this should not be called before or during the transaction process.
 
 `PaymentEngine.Disconnect()`
