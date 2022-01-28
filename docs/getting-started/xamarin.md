@@ -85,7 +85,7 @@ Also in your project's **Info.plist** file we need to add the four (4) privacy t
 ```
 
 <p align="center">
-  <img src="https://github.com/InfinitePeripherals/QuantumPay/blob/3316806a563f383c0fd0291ce33a16d0334cee54/docs/assets/images/walkthroughs/xamarin-3.png" style='border:1px solid #000000' />
+  <img src="https://github.com/InfinitePeripherals/QuantumPay/blob/6fb4d1412c7028d19f214e7a84c59e0ca5b61b1c/docs/assets/images/walkthroughs/xamarin-3.png" style='border:1px solid #000000' />
 </p>
 
 ---
