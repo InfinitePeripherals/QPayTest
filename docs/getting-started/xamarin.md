@@ -226,13 +226,13 @@ The transaction object holds information about the invoice, the total amount for
 
 ```C#
 var txn = paymentEngine.BuildTransaction(invoice)
-                .Sale()
-                .Amount(amount, currency)
-                .Reference(reference) // required - unique transaction reference, such as your application order number
-                .DateTime(DateTimeOffset.Now) // optional - defaults to the current local date time
-                .Service(SampleConfig.Service) // optional - allow customer to control the merchant account that will process the transaction in business that have multiple services / legal entities
-                .MetaData(new Dictionary<string, string> {{"OrderNumber", invoiceNum.ToString()}, {"Delivered", "Y"}}) // optional - store data object to associate with the transaction
-                .Build();
+                       .Sale()
+                       .Amount(amount, currency)
+                       .Reference(reference) // required - unique transaction reference, such as your application order number
+                       .DateTime(DateTimeOffset.Now) // optional - defaults to the current local date time
+                       .Service(SampleConfig.Service) // optional - allow customer to control the merchant account that will process the transaction in business that have multiple services / legal entities
+                       .MetaData(new Dictionary<string, string> {{"OrderNumber", invoiceNum.ToString()}, {"Delivered", "Y"}}) // optional - store data object to associate with the transaction
+                       .Build();
 ```
 
 ### Start transaction
