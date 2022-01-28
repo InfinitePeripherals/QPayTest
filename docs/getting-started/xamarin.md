@@ -207,17 +207,17 @@ Time to create an invoice. This invoice object holds information about a purchas
 
 ```C#
 var invoice = paymentEngine.BuildInvoice(invoiceNum.ToString())
-                .CompanyName("ACME SUPPLIES INC.")
-                .PurchaseOrderReference("PO1234")
-                .AddItem("SKU1", "Discount Voucher for Return Visit", 0M)
-                .AddItem(item => item.ProductCode("SKU2")
-                    .Description("In Store Item")
-                    .SaleCode(SaleCode.Sale)
-                    .Price(amount)
-                    .UnitOfMeasure(UnitOfMeasure.Each))
-                .CalculateTotals()
-                .Build();
-                
+                           .CompanyName("ACME SUPPLIES INC.")
+                           .PurchaseOrderReference("PO1234")
+                           .AddItem("SKU1", "Discount Voucher for Return Visit", 0M)
+                           .AddItem(item => item.ProductCode("SKU2")
+                              .Description("In Store Item")
+                              .SaleCode(SaleCode.Sale)
+                              .Price(amount)
+                              .UnitOfMeasure(UnitOfMeasure.Each))
+                           .CalculateTotals()
+                           .Build();
+                 
 ```
 
 ### Create a transaction
