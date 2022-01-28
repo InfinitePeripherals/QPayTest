@@ -67,8 +67,8 @@ com.datecs.iserial.communication
 com.datecs.printer.label.zpl
 com.datecs.label.zpl
 com.datecs.pinpad
-
 ```
+
 <p align="center">
   <img src="https://github.com/InfinitePeripherals/QuantumPay/blob/69f4b1c932ee6042b3a09ff0bf29571ee558d234/docs/assets/images/walkthroughs/xamarin-2.png" style='border:1px solid #000000' />
 </p>
