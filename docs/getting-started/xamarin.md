@@ -117,7 +117,7 @@ public async Task CreatePaymentEngine()
 {
     var paymentEngine = await PaymentEngine.Builder
                                        .AssignLocationsToTransactionsUsingProvider(SampleConfig.LocationProvider()) // optional - assign locations to transactions
-                                       //.AssignLocationsToTransactions() // optional - use precise tracking for assigning locations
+                                       .AssignLocationsToTransactions() // optional - use precise tracking for assigning locations
                                        .Server(ServerEnvironment.Test) // optional - the default production server is used if not provided
                                        .RegistrationCredentials(SampleConfig.Username, SampleConfig.Password) // optional - only used to register the device, not required if the device is already registered with the server
                                        .PosId(posId) // required - the unique POS ID for your system
