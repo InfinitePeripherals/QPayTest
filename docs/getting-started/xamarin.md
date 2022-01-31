@@ -113,26 +113,24 @@ InfinitePeripherals.Init(Config.DeveloperKey, tenant);
 The payment engine is the main object that you will interact with to send transactions and receive callbacks.
 
 ```C#
-public async Task CreatePaymentEngine()
-{
-    var paymentEngine = await PaymentEngine.Builder
-                                           .AssignLocationsToTransactionsUsingProvider(SampleConfig.LocationProvider()) // optional - assign locations to transactions
-                                           .AssignLocationsToTransactions() // optional - use precise tracking for assigning locations
-                                           .Server(ServerEnvironment.Test) // optional - the default production server is used if not provided
-                                           .RegistrationCredentials(SampleConfig.Username, SampleConfig.Password) // optional - only used to register the device, not required if the device is already registered with the server
-                                           .PosId(posId) // required - the unique POS ID for your system
-                                           .EmvApplicationSelectionStrategy(EmvApplicationSelectionStrategy.Default)
-                                           .TransactionTimeout(TimeSpan.FromSeconds(30)) // optional - specify the duration that the peripheral will wait for the customer to complete the payment
-                                           .Logger(new ConsoleLogger()) // optional - add your own logger implementation
-                                           .UnhandledExceptionHandler(ex =>
-                                           {
-                                              // optional - add your own exception handling here - such as crash logger or error dialog, etc
-                                              // by default, the engine will log the errors using the logger implementation
-                                              Console.WriteLine($"UNHANDLED EXCEPTION:: {ex}");
-                                           })
-                                           .AddPeripheral(SampleConfig.Peripheral, autoConnect: false) // required - add your peripheral
-                                           .BuildAsync();
-}
+var paymentEngine = await PaymentEngine.Builder
+                                       .AssignLocationsToTransactionsUsingProvider(SampleConfig.LocationProvider()) // optional - assign locations to transactions
+                                       .AssignLocationsToTransactions() // optional - use precise tracking for assigning locations
+                                       .Server(ServerEnvironment.Test) // optional - the default production server is used if not provided
+                                       .RegistrationCredentials(SampleConfig.Username, SampleConfig.Password) // optional - only used to register the device, not required if the device is already registered with the server
+                                       .PosId(posId) // required - the unique POS ID for your system
+                                       .EmvApplicationSelectionStrategy(EmvApplicationSelectionStrategy.Default)
+                                       .TransactionTimeout(TimeSpan.FromSeconds(30)) // optional - specify the duration that the peripheral will wait for the customer to complete the payment
+                                       .Logger(new ConsoleLogger()) // optional - add your own logger implementation
+                                       .UnhandledExceptionHandler(ex =>
+                                       {
+                                          // optional - add your own exception handling here - such as crash logger or error dialog, etc
+                                          // by default, the engine will log the errors using the logger implementation
+                                          Console.WriteLine($"UNHANDLED EXCEPTION:: {ex}");
+                                       })
+                                       .AddPeripheral(SampleConfig.Peripheral, autoConnect: false) // required - add your peripheral
+                                       .BuildAsync();
+
 ```
 
 ### Setup handlers
@@ -145,27 +143,24 @@ Once the `PaymentEngine` is created, you can use it's handlers to track the oper
 `EmvApplicationHandler` will get called if the EmvApplicationSelection is required.
 
 ```C#
-private void SetPaymentEngineHandlers()
+
+PaymentEngine.SetPeripheralStateHandler((peripheral, peripheralState) =>
 {
-    PaymentEngine.SetPeripheralStateHandler((peripheral, peripheralState) =>
-    {
-        MainThread.BeginInvokeOnMainThread(() => { PeripheralState = peripheralState; });
-    });
+    MainThread.BeginInvokeOnMainThread(() => { PeripheralState = peripheralState; });
+});
 
-    PaymentEngine.SetPeripheralMessageHandler((peripheral, message) =>
-    {
-        MainThread.BeginInvokeOnMainThread(() => { PeripheralMessage = message; });
-    });
+PaymentEngine.SetPeripheralMessageHandler((peripheral, message) =>
+{
+    MainThread.BeginInvokeOnMainThread(() => { PeripheralMessage = message; });
+});
 
-    PaymentEngine.SetEmvApplicationSelectionHandler((peripheral, transaction, selection) =>
+PaymentEngine.SetEmvApplicationSelectionHandler((peripheral, transaction, selection) =>
+{
+    MainThread.BeginInvokeOnMainThread(async() =>
     {
-        MainThread.BeginInvokeOnMainThread(async() =>
-        {
-            await ShowEmvApplicationSelectionAction(selection);
-        });
+        await ShowEmvApplicationSelectionAction(selection);
     });
-
-}
+});
 ```
 
 ### Connect to payment device
@@ -174,32 +169,30 @@ Now that your payment engine is configured and your handlers are set up, lets co
 `ConnectionStateHandler` will get called when the connection state of the payment device changes between connecting, connected, and disconnected. It is important to make sure your device is connected before attempting to start a transaction.
 
 ```C#
-public void ConnectToPeripheral()
-{
-    // assign connection state and transaction state handlers
-    PaymentEngine.SetConnectionStateHandler((peripheral, connectionState) =>
-    {
-        ConnectionState = connectionState;
+  // assign connection state and transaction state handlers
+  PaymentEngine.SetConnectionStateHandler((peripheral, connectionState) =>
+  {
+      ConnectionState = connectionState;
 
-        switch (connectionState)
-        {
-            case ConnectionState.Disconnected:
-                ConnectionMessage = "Disconnected";
-                break;
+      switch (connectionState)
+      {
+          case ConnectionState.Disconnected:
+              ConnectionMessage = "Disconnected";
+              break;
 
-            case ConnectionState.Connecting:
-                ConnectionMessage = "Connecting";
-                break;
+          case ConnectionState.Connecting:
+              ConnectionMessage = "Connecting";
+              break;
 
-            case ConnectionState.Connected:
-                ConnectionMessage = "Connected";
-                break;
-        }
-    });
+          case ConnectionState.Connected:
+              ConnectionMessage = "Connected";
+              break;
+      }
+  });
 
-    // connect to the peripheral - must be called before any further interaction with the peripheral
-    PaymentEngine.Connect();
-}
+  // connect to the peripheral - must be called before any further interaction with the peripheral
+  PaymentEngine.Connect();
+
 ```
 
 ### Create an invoice
