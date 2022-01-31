@@ -176,8 +176,6 @@ paymentEngine.SetTransactionStateHandler((peripheral, transaction, transactionSt
 paymentEngine.SetTransactionResultHandler((transactionResult) =>
 {
     var dataLabel = $"{transactionResult.Status} {transactionResult.ServerResponse?.GatewayResult} {transactionResult.Reason}";
-
-    UpdateBatteryPercentage();
 });
 
 PaymentEngine.SetPeripheralStateHandler((peripheral, peripheralState) =>
