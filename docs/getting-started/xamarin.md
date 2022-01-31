@@ -143,18 +143,17 @@ Once the `PaymentEngine` is created, you can use it's handlers to track the oper
 `EmvApplicationHandler` will get called if the EmvApplicationSelection is required.
 
 ```C#
-
-PaymentEngine.SetPeripheralStateHandler((peripheral, peripheralState) =>
+paymentEngine.SetPeripheralStateHandler((peripheral, peripheralState) =>
 {
     MainThread.BeginInvokeOnMainThread(() => { PeripheralState = peripheralState; });
 });
 
-PaymentEngine.SetPeripheralMessageHandler((peripheral, message) =>
+paymentEngine.SetPeripheralMessageHandler((peripheral, message) =>
 {
     MainThread.BeginInvokeOnMainThread(() => { PeripheralMessage = message; });
 });
 
-PaymentEngine.SetEmvApplicationSelectionHandler((peripheral, transaction, selection) =>
+paymentEngine.SetEmvApplicationSelectionHandler((peripheral, transaction, selection) =>
 {
     MainThread.BeginInvokeOnMainThread(async() =>
     {
@@ -169,26 +168,26 @@ Now that your payment engine is configured and your handlers are set up, lets co
 `ConnectionStateHandler` will get called when the connection state of the payment device changes between connecting, connected, and disconnected. It is important to make sure your device is connected before attempting to start a transaction.
 
 ```C#
-  // assign connection state and transaction state handlers
-  PaymentEngine.SetConnectionStateHandler((peripheral, connectionState) =>
-  {
-      ConnectionState = connectionState;
+// assign connection state and transaction state handlers
+paymentEngine.SetConnectionStateHandler((peripheral, connectionState) =>
+{
+    ConnectionState = connectionState;
 
-      switch (connectionState)
-      {
-          case ConnectionState.Disconnected:
-              ConnectionMessage = "Disconnected";
-              break;
+    switch (connectionState)
+    {
+        case ConnectionState.Disconnected:
+            ConnectionMessage = "Disconnected";
+            break;
 
-          case ConnectionState.Connecting:
-              ConnectionMessage = "Connecting";
-              break;
+        case ConnectionState.Connecting:
+            ConnectionMessage = "Connecting";
+            break;
 
-          case ConnectionState.Connected:
-              ConnectionMessage = "Connected";
-              break;
-      }
-  });
+        case ConnectionState.Connected:
+            ConnectionMessage = "Connected";
+            break;
+    }
+});
 
   // connect to the peripheral - must be called before any further interaction with the peripheral
   PaymentEngine.Connect();
@@ -232,7 +231,7 @@ var txn = paymentEngine.BuildTransaction(invoice)
 
 Now that everything is ready we can start the transaction and take payment. Watch the handler messages and status updates to track the transaction throughout the process.
 
-`return await PaymentEngine.StartTransactionAsync(txn);`
+`return await paymentEngine.StartTransactionAsync(txn);`
 
 ### Transaction receipt
 
@@ -249,7 +248,7 @@ transactionResult.receipt?.merchantReceiptUrl
 ## Disconnect payment device
 Now that the transaction is complete you are free to disconnect the payment device if you wish. Please note that this should not be called before or during the transaction process.
 
-`PaymentEngine.Disconnect()`
+`paymentEngine.Disconnect()`
 
 ---
 
