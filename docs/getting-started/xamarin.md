@@ -136,6 +136,12 @@ var paymentEngine = await PaymentEngine.Builder
 ### Setup handlers
 Once the `PaymentEngine` is created, you can use it's handlers to track the operation. The `PaymentEngine` handlers will get called throughout the payment process and will return you the current state of the transaction. You can set these handlers in the completion block of the previous step.
 
+`TransactionStateHandler` will assign the delegate to use for handling transaction state changes.
+
+`TransactionResultHandler` will assign the delegate to use for handling transaction results.
+
+`SignitureVerificationHandler` will assign the delegate to use for handling signature verification during a transaction.
+
 `PeripheralStateHandler` will get called when the state of the peripheral changes during the transaction process. The PeripheralState represents the current state of the peripheral as reported by the peripheral device itself. These include “idle”, “ready”, “contactCardInserted” etc.
 
 `PeripheralMessageHandler` will get called when there is new message about the transaction throughout the process. The peripheral message tells you when to present the card, if the card read is successful or failed, etc. This usually indicates something that should be displayed in the user interface.
@@ -143,22 +149,68 @@ Once the `PaymentEngine` is created, you can use it's handlers to track the oper
 `EmvApplicationHandler` will get called if the EmvApplicationSelection is required.
 
 ```C#
-paymentEngine.SetPeripheralStateHandler((peripheral, peripheralState) =>
+paymentEngine.SetTransactionStateHandler((peripheral, transaction, transactionState) =>
+{
+    ScanTypeLabel.Text = $"Transaction State = {transactionState}";
+
+    if (transactionState == TransactionState.CardReadSuccess)
+    {
+        ScanDataLabel.Text = transaction.Properties?.MaskedPan;
+    }
+
+    if (transactionState.IsFinalState())
+    {
+        StopEmv(this, EventArgs.Empty);
+    }
+
+    UpdateBatteryPercentage();
+});
+
+paymentEngine.SetTransactionResultHandler((transactionResult) =>
+{
+    ScanDataLabel.Text = $"{transactionResult.Status} {transactionResult.ServerResponse?.GatewayResult} {transactionResult.Reason}";
+
+    UpdateBatteryPercentage();
+});
+
+paymentEngine.SetSignatureVerificationHandler((peripheral, transaction, verification) =>
+{
+    var alert = UIAlertController.Create("Signature Required", "Is the customer's signature correct?", UIAlertControllerStyle.Alert);
+    alert.AddAction(UIAlertAction.Create("Yes", UIAlertActionStyle.Default, action =>
+    {
+        // the merchant says the signature is correct
+        verification.SignatureAccepted();
+    }));
+    alert.AddAction(UIAlertAction.Create("No", UIAlertActionStyle.Destructive, action =>
+    {
+        // the merchant says the signature is incorrect
+        verification.SignatureRejected();
+    }));
+    PresentViewController(alert, true, () => { });
+});
+
+PaymentEngine.SetPeripheralStateHandler((peripheral, peripheralState) =>
 {
     MainThread.BeginInvokeOnMainThread(() => { PeripheralState = peripheralState; });
 });
 
-paymentEngine.SetPeripheralMessageHandler((peripheral, message) =>
+PaymentEngine.SetPeripheralMessageHandler((peripheral, message) =>
 {
     MainThread.BeginInvokeOnMainThread(() => { PeripheralMessage = message; });
 });
 
 paymentEngine.SetEmvApplicationSelectionHandler((peripheral, transaction, selection) =>
 {
-    MainThread.BeginInvokeOnMainThread(async() =>
+    var alert = UIAlertController.Create("Select Card", "Select card application", UIAlertControllerStyle.Alert);
+    foreach(var application in selection.EmvApplications)
     {
-        await ShowEmvApplicationSelectionAction(selection);
-    });
+        alert.AddAction(UIAlertAction.Create(application.Name, UIAlertActionStyle.Default, action =>
+        {
+            //select the app
+            selection.SelectApplication(application);
+        }));
+    }
+    PresentViewController(alert, true, () => { });
 });
 ```
 
@@ -171,20 +223,34 @@ Now that your payment engine is configured and your handlers are set up, lets co
 // assign connection state and transaction state handlers
 paymentEngine.SetConnectionStateHandler((peripheral, connectionState) =>
 {
-    ConnectionState = connectionState;
-
     switch (connectionState)
     {
         case ConnectionState.Disconnected:
-            ConnectionMessage = "Disconnected";
+            Console.WriteLine("Peripheral disconnected");
+            View.BackgroundColor = disconnectedColor;
+            ConnectionLabel.Text = "Peripheral disconnected";
+            RfidButton.Hidden = true;
+            EmvButton.Hidden = true;
+            ConnectButton.Hidden = false;
             break;
 
         case ConnectionState.Connecting:
-            ConnectionMessage = "Connecting";
+            Console.WriteLine("Peripheral connecting...");
+            View.BackgroundColor = connectingColor;
+            ConnectionLabel.Text = "Peripheral connecting";
+            RfidButton.Hidden = true;
+            EmvButton.Hidden = true;
+            ConnectButton.Hidden = true;
             break;
 
         case ConnectionState.Connected:
-            ConnectionMessage = "Connected";
+            Console.WriteLine("Peripheral connected");
+            View.BackgroundColor = connectedColor;
+            ConnectionLabel.Text = "Peripheral connected!";
+            RfidButton.Hidden = true;
+            EmvButton.Hidden = false;
+            ConnectButton.Hidden = true;
+            UpdateBatteryPercentage();
             break;
     }
 });
