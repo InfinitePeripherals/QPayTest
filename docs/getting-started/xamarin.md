@@ -265,7 +265,9 @@ var txn = paymentEngine.BuildTransaction(invoice)
 
 Now that everything is ready we can start the transaction and take payment. Watch the handler messages and status updates to track the transaction throughout the process.
 
-`return await paymentEngine.StartTransactionAsync(txn);`
+```csharp
+return await paymentEngine.StartTransactionAsync(txn);
+```
 
 ### Transaction receipt
 
@@ -282,8 +284,9 @@ transactionResult.receipt?.merchantReceiptUrl
 ## Disconnect payment device
 Now that the transaction is complete you are free to disconnect the payment device if you wish. Please note that this should not be called before or during the transaction process.
 
-`paymentEngine.Disconnect()`
-
+```csharp
+paymentEngine.Disconnect()
+```
 ---
 
 ## Connect bluetooth peripheral to iOS device using the camera
