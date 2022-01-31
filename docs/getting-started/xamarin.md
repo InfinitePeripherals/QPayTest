@@ -162,36 +162,34 @@ Once the `PaymentEngine` is created, you can use it's handlers to track the oper
 ```csharp
 paymentEngine.SetTransactionStateHandler((peripheral, transaction, transactionState) =>
 {
-    ScanTypeLabel.Text = $"Transaction State = {transactionState}";
+    var scanLabel = $"Transaction State = {transactionState}";
 
     if (transactionState == TransactionState.CardReadSuccess)
     {
-        ScanDataLabel.Text = transaction.Properties?.MaskedPan;
+        var dataLabel = transaction.Properties?.MaskedPan;
     }
 
     if (transactionState.IsFinalState())
     {
         StopEmv(this, EventArgs.Empty);
     }
-
-    UpdateBatteryPercentage();
 });
 
 paymentEngine.SetTransactionResultHandler((transactionResult) =>
 {
-    ScanDataLabel.Text = $"{transactionResult.Status} {transactionResult.ServerResponse?.GatewayResult} {transactionResult.Reason}";
+    var dataLabel = $"{transactionResult.Status} {transactionResult.ServerResponse?.GatewayResult} {transactionResult.Reason}";
 
     UpdateBatteryPercentage();
 });
 
 PaymentEngine.SetPeripheralStateHandler((peripheral, peripheralState) =>
 {
-    MainThread.BeginInvokeOnMainThread(() => { PeripheralState = peripheralState; });
+    MainThread.BeginInvokeOnMainThread(() => { Console.WriteLine(peripheralState); });
 });
 
 PaymentEngine.SetPeripheralMessageHandler((peripheral, message) =>
 {
-    MainThread.BeginInvokeOnMainThread(() => { PeripheralMessage = message; });
+    MainThread.BeginInvokeOnMainThread(() => { Console.WriteLine(message); });
 });
 ```
 
