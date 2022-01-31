@@ -98,7 +98,7 @@ At this point, your Visual Studio project should be configured and ready to use 
 ### Initialize the SDKs
 The SDKs need to be initialized with the correct keys provided by Infinite Peripherals. This step is important and should be the first code to run before using other functions from the SDKs. Create tenant in FInishedLaunching function in AppDelegate.cs
 
-```C#
+```csharp
 // Create tenant
 QuantumPay.Client.Tenant tenant = new QuantumPay.Client.Tenant(Config.HostKey, Config.TenantKey);
 
@@ -112,7 +112,7 @@ InfinitePeripherals.Init(Config.DeveloperKey, tenant);
 
 The payment engine is the main object that you will interact with to send transactions and receive callbacks.
 
-```C#
+```csharp
 var paymentEngine = await PaymentEngine.Builder
                                        .AssignLocationsToTransactionsUsingProvider(SampleConfig.LocationProvider()) // optional - assign locations to transactions
                                        .AssignLocationsToTransactions() // optional - use precise tracking for assigning locations
@@ -148,7 +148,7 @@ Once the `PaymentEngine` is created, you can use it's handlers to track the oper
 
 `EmvApplicationHandler` will get called if the EmvApplicationSelection is required.
 
-```C#
+```csharp
 paymentEngine.SetTransactionStateHandler((peripheral, transaction, transactionState) =>
 {
     ScanTypeLabel.Text = $"Transaction State = {transactionState}";
@@ -219,7 +219,7 @@ Now that your payment engine is configured and your handlers are set up, lets co
 
 `ConnectionStateHandler` will get called when the connection state of the payment device changes between connecting, connected, and disconnected. It is important to make sure your device is connected before attempting to start a transaction.
 
-```C#
+```csharp
 // assign connection state and transaction state handlers
 paymentEngine.SetConnectionStateHandler((peripheral, connectionState) =>
 {
@@ -263,7 +263,7 @@ paymentEngine.SetConnectionStateHandler((peripheral, connectionState) =>
 ### Create an invoice
 Time to create an invoice. This invoice object holds information about a purchase order and the items in the order.
 
-```C#
+```csharp
 var invoice = paymentEngine.BuildInvoice(invoiceNum.ToString())
                            .CompanyName("ACME SUPPLIES INC.")
                            .PurchaseOrderReference("PO1234")
@@ -282,7 +282,7 @@ var invoice = paymentEngine.BuildInvoice(invoiceNum.ToString())
 
 The transaction object holds information about the invoice, the total amount for the transaction and the type of the transaction (e.g.: sale, auth, refund, etc.)
 
-```C#
+```csharp
 var txn = paymentEngine.BuildTransaction(invoice)
                        .Sale()
                        .Amount(amount, currency)
@@ -303,7 +303,7 @@ Now that everything is ready we can start the transaction and take payment. Watc
 
 Once the transaction is completed and approved, the receipt is sent to the TransactionResultHandler callback.
 
-```C#
+```csharp
 // The url for customer receipt
 transactionResult.receipt?.customerReceiptUrl
 
@@ -326,7 +326,7 @@ It is possible to connect any of our bluetooth devices to your app using the cam
 
 First you will need to allow the app to use the camera and also enable bluetooth, do this by adding the following code to the info.plist
 
-```C#
+```xml
 <key>NSBluetoothPeripheralUsageDescription</key>
 <string>This app communicates with an external peripheral via Bluetooth to enable functionality such as reading cards and scanning barcodes.</string>
 <key>NSBluetoothAlwaysUsageDescription</key>
@@ -340,7 +340,7 @@ First you will need to allow the app to use the camera and also enable bluetooth
 The simplist way to achieve this is to use a package, for this example we are using zxing scanner 'https://www.nuget.org/packages/ZXing.Net.Mobile.Forms/'. You can however create your own scanner implementation if you so wish. 
 
 ScanPage.xaml
-```C#
+```xml
 <zxing:ZXingScannerView x:Name="ScanView"
                         OnScanResult="Handle_OnScanResult" 
                         IsScanning="true" />
@@ -348,7 +348,7 @@ ScanPage.xaml
 ```
 
 ScanPage.xaml.cs
-```C#
+```csharp
 public void Handle_OnScanResult(Result result)
 {
     Device.BeginInvokeOnMainThread(async() =>
@@ -364,7 +364,7 @@ public void Handle_OnScanResult(Result result)
 
 Some of our payment devices also support barcode scanning (e.g., QPC150, QPC250). In order to receive the barcode data, you will need to set your class to conform to the protocol IPCDTDeviceDelegate, to do this set an instance of the IPCDTDeviceDelegateEvents:
 
-```C#
+```csharp
 private IPCDTDeviceDelegateEvents PeripheralEvents { get; } = new IPCDTDeviceDelegateEvents();
 
 PeripheralEvents.BarcodeNSDataType += OnBarcodeScanned;
@@ -372,7 +372,7 @@ PeripheralEvents.BarcodeNSDataType += OnBarcodeScanned;
 
 Next, implement the function that handles the scan and the dat returned
 
-```C#
+```csharp
 private void OnBarcodeScanned(object sender, BarcodeNSDataTypeEventArgs e)
 {
     Console.WriteLine($"Barcode scanned: {e.Barcode} ({e.Type})");
