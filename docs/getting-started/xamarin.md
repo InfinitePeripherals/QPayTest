@@ -248,7 +248,7 @@ var invoice = paymentEngine.BuildInvoice(orderNum.ToString())
 The transaction object holds information about the invoice, the total amount for the transaction and the type of the transaction (e.g.: sale, auth, refund, etc.)
 
 ```csharp
-var reference = "3423-2234-222"
+var reference = "3423-2234-222";
 var service = "TestService";
 var amount = 5.00M; // $5.00 USD
 
