@@ -275,10 +275,10 @@ Once the transaction is completed and approved, the receipt is sent to the Trans
 
 ```csharp
 // The url for customer receipt
-transactionResult.receipt?.customerReceiptUrl
+transactionResult.receipt?.customerReceiptUrl;
 
 // The url for merchant receipt
-transactionResult.receipt?.merchantReceiptUrl
+transactionResult.receipt?.merchantReceiptUrl;
 ```
 
 ## Disconnect payment device
