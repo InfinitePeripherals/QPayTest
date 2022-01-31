@@ -310,7 +310,7 @@ ScanPage.xaml
 <zxing:ZXingScannerView x:Name="ScanView"
                         OnScanResult="Handle_OnScanResult" 
                         IsScanning="true" />
-<zxing:ZXingDefaultOverlay Grid.Row="0" />
+<zxing:ZXingDefaultOverlay/>
 ```
 
 ScanPage.xaml.cs
