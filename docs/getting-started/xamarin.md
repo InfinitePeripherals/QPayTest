@@ -99,36 +99,51 @@ At this point, your Visual Studio project should be configured and ready to use 
 The SDKs need to be initialized with the correct keys provided by Infinite Peripherals. This step is important and should be the first code to run before using other functions from the SDKs. Create tenant in FInishedLaunching function in AppDelegate.cs
 
 ```csharp
+// These keys are jsut examples and will not work. Please ask IPC to supply you with the correct keys
+var hostKey = "US";
+var tenant = "IPC";
+var developerKey = "0000-0000-0000-0000-0000";
+
 // Create tenant
-QuantumPay.Client.Tenant tenant = new QuantumPay.Client.Tenant(Config.HostKey, Config.TenantKey);
+QuantumPay.Client.Tenant tenant = new QuantumPay.Client.Tenant(hostKey, tenantKey);
 
 // Initialize QuantumPay
-InfinitePeripherals.Init(Config.DeveloperKey, tenant);
+InfinitePeripherals.Init(developerKey, tenant);
 ```
 
 ---
+
+### Create Payment Device
+Now initialize a payment device that matches the hardware you are using. The current supported payment devices are: QPC150, QPC250, QPP400, QPP450, QPR250, QPR300. Note that this step is different for payment devices that are connected with Bluetooth LE.
+
+Initialize QPC150, QPC250 (Lightning connector)
+
+```csharp
+var paymentDevice = new QPC250()
+```
+
+Initialize QPP400, QPP450, QPR250, QPR300 (Bluetooth LE) by supplying its serial number so the PaymentEngine can search for and connect to it. On first connection, the app will prompt you to pair the device. Be sure to press “OK” when the pop-up is shown. To complete the pairing, if using a QPR device, press the small button on top of the device opposite the power button. If using a QPP device, press the green check mark button on the bottom right of the keypad.
+// The device serial number is found on the label on the device.
+
+```csharp
+var paymentDevice = new QPR250("2320900026") 
+```
 
 ### Create payment engine
 
 The payment engine is the main object that you will interact with to send transactions and receive callbacks.
 
 ```csharp
+var username = "test@testuser.com";
+var password = "P@ssword";
+var testPosId = "TestPosId"; // this should be a unique value for your device instance
+
 var paymentEngine = await PaymentEngine.Builder
-                                       .AssignLocationsToTransactionsUsingProvider(SampleConfig.LocationProvider()) // optional - assign locations to transactions
                                        .AssignLocationsToTransactions() // optional - use precise tracking for assigning locations
-                                       .Server(ServerEnvironment.Test) // optional - the default production server is used if not provided
-                                       .RegistrationCredentials(SampleConfig.Username, SampleConfig.Password) // optional - only used to register the device, not required if the device is already registered with the server
-                                       .PosId(posId) // required - the unique POS ID for your system
-                                       .EmvApplicationSelectionStrategy(EmvApplicationSelectionStrategy.Default)
+                                       .RegistrationCredentials(username, password) // optional - only used to register the device, not required if the device is already registered with the server
+                                       .PosId(testPosId) // required - the unique POS ID for your system
                                        .TransactionTimeout(TimeSpan.FromSeconds(30)) // optional - specify the duration that the peripheral will wait for the customer to complete the payment
-                                       .Logger(new ConsoleLogger()) // optional - add your own logger implementation
-                                       .UnhandledExceptionHandler(ex =>
-                                       {
-                                          // optional - add your own exception handling here - such as crash logger or error dialog, etc
-                                          // by default, the engine will log the errors using the logger implementation
-                                          Console.WriteLine($"UNHANDLED EXCEPTION:: {ex}");
-                                       })
-                                       .AddPeripheral(SampleConfig.Peripheral, autoConnect: false) // required - add your peripheral
+                                       .AddPeripheral(paymentDevice, autoConnect: false) // required - add your peripheral
                                        .BuildAsync();
 
 ```
@@ -140,13 +155,9 @@ Once the `PaymentEngine` is created, you can use it's handlers to track the oper
 
 `TransactionResultHandler` will assign the delegate to use for handling transaction results.
 
-`SignitureVerificationHandler` will assign the delegate to use for handling signature verification during a transaction.
-
 `PeripheralStateHandler` will get called when the state of the peripheral changes during the transaction process. The PeripheralState represents the current state of the peripheral as reported by the peripheral device itself. These include “idle”, “ready”, “contactCardInserted” etc.
 
 `PeripheralMessageHandler` will get called when there is new message about the transaction throughout the process. The peripheral message tells you when to present the card, if the card read is successful or failed, etc. This usually indicates something that should be displayed in the user interface.
-
-`EmvApplicationHandler` will get called if the EmvApplicationSelection is required.
 
 ```csharp
 paymentEngine.SetTransactionStateHandler((peripheral, transaction, transactionState) =>
@@ -173,22 +184,6 @@ paymentEngine.SetTransactionResultHandler((transactionResult) =>
     UpdateBatteryPercentage();
 });
 
-paymentEngine.SetSignatureVerificationHandler((peripheral, transaction, verification) =>
-{
-    var alert = UIAlertController.Create("Signature Required", "Is the customer's signature correct?", UIAlertControllerStyle.Alert);
-    alert.AddAction(UIAlertAction.Create("Yes", UIAlertActionStyle.Default, action =>
-    {
-        // the merchant says the signature is correct
-        verification.SignatureAccepted();
-    }));
-    alert.AddAction(UIAlertAction.Create("No", UIAlertActionStyle.Destructive, action =>
-    {
-        // the merchant says the signature is incorrect
-        verification.SignatureRejected();
-    }));
-    PresentViewController(alert, true, () => { });
-});
-
 PaymentEngine.SetPeripheralStateHandler((peripheral, peripheralState) =>
 {
     MainThread.BeginInvokeOnMainThread(() => { PeripheralState = peripheralState; });
@@ -197,20 +192,6 @@ PaymentEngine.SetPeripheralStateHandler((peripheral, peripheralState) =>
 PaymentEngine.SetPeripheralMessageHandler((peripheral, message) =>
 {
     MainThread.BeginInvokeOnMainThread(() => { PeripheralMessage = message; });
-});
-
-paymentEngine.SetEmvApplicationSelectionHandler((peripheral, transaction, selection) =>
-{
-    var alert = UIAlertController.Create("Select Card", "Select card application", UIAlertControllerStyle.Alert);
-    foreach(var application in selection.EmvApplications)
-    {
-        alert.AddAction(UIAlertAction.Create(application.Name, UIAlertActionStyle.Default, action =>
-        {
-            //select the app
-            selection.SelectApplication(application);
-        }));
-    }
-    PresentViewController(alert, true, () => { });
 });
 ```
 
@@ -227,30 +208,17 @@ paymentEngine.SetConnectionStateHandler((peripheral, connectionState) =>
     {
         case ConnectionState.Disconnected:
             Console.WriteLine("Peripheral disconnected");
-            View.BackgroundColor = disconnectedColor;
-            ConnectionLabel.Text = "Peripheral disconnected";
-            RfidButton.Hidden = true;
-            EmvButton.Hidden = true;
-            ConnectButton.Hidden = false;
+            // update your UI code here
             break;
 
         case ConnectionState.Connecting:
             Console.WriteLine("Peripheral connecting...");
-            View.BackgroundColor = connectingColor;
-            ConnectionLabel.Text = "Peripheral connecting";
-            RfidButton.Hidden = true;
-            EmvButton.Hidden = true;
-            ConnectButton.Hidden = true;
+            // update your UI code here
             break;
 
         case ConnectionState.Connected:
             Console.WriteLine("Peripheral connected");
-            View.BackgroundColor = connectedColor;
-            ConnectionLabel.Text = "Peripheral connected!";
-            RfidButton.Hidden = true;
-            EmvButton.Hidden = false;
-            ConnectButton.Hidden = true;
-            UpdateBatteryPercentage();
+            // update your UI code here
             break;
     }
 });
@@ -272,7 +240,8 @@ var invoice = paymentEngine.BuildInvoice(invoiceNum.ToString())
                               .Description("In Store Item")
                               .SaleCode(SaleCode.Sale)
                               .Price(amount)
-                              .UnitOfMeasure(UnitOfMeasure.Each))
+                              .Quantity(4)
+                              .UnitOfMeasure(UnitOfMeasure.Each)) // defines the association between quantity and price
                            .CalculateTotals()
                            .Build();
                  
@@ -283,12 +252,13 @@ var invoice = paymentEngine.BuildInvoice(invoiceNum.ToString())
 The transaction object holds information about the invoice, the total amount for the transaction and the type of the transaction (e.g.: sale, auth, refund, etc.)
 
 ```csharp
+var service = "TestService";
+
 var txn = paymentEngine.BuildTransaction(invoice)
-                       .Sale()
+                       .Sale() // other optons: refund(), auth(), capture(), void()
                        .Amount(amount, currency)
                        .Reference(reference) // required - unique transaction reference, such as your application order number
-                       .DateTime(DateTimeOffset.Now) // optional - defaults to the current local date time
-                       .Service(SampleConfig.Service) // optional - allow customer to control the merchant account that will process the transaction in business that have multiple services / legal entities
+                       .Service(service) // optional - allow customer to control the merchant account that will process the transaction in business that have multiple services / legal entities
                        .MetaData(new Dictionary<string, string> {{"OrderNumber", invoiceNum.ToString()}, {"Delivered", "Y"}}) // optional - store data object to associate with the transaction
                        .Build();
 ```
@@ -337,7 +307,7 @@ First you will need to allow the app to use the camera and also enable bluetooth
 
 ### Implement scanner page
 
-The simplist way to achieve this is to use a package, for this example we are using zxing scanner 'https://www.nuget.org/packages/ZXing.Net.Mobile.Forms/'. You can however create your own scanner implementation if you so wish. 
+The simplist way to achieve this is to use a package, for this example you can use the zxing scanner 'https://www.nuget.org/packages/ZXing.Net.Mobile.Forms/'. You can however create your own scanner implementation if you so wish. 
 
 ScanPage.xaml
 ```xml
@@ -353,7 +323,7 @@ public void Handle_OnScanResult(Result result)
 {
     Device.BeginInvokeOnMainThread(async() =>
     {
-         BluetoothCode = result.Text;
+         DeviceSerialNumber = result.Text;
     });
 }
 ```
@@ -365,9 +335,16 @@ public void Handle_OnScanResult(Result result)
 Some of our payment devices also support barcode scanning (e.g., QPC150, QPC250). In order to receive the barcode data, you will need to set your class to conform to the protocol IPCDTDeviceDelegate, to do this set an instance of the IPCDTDeviceDelegateEvents:
 
 ```csharp
+// Gets the Infinite Peripherals object
+private IPCDTDevices Peripheral { get; } = IPCDTDevices.Instance;
+
 private IPCDTDeviceDelegateEvents PeripheralEvents { get; } = new IPCDTDeviceDelegateEvents();
 
 PeripheralEvents.BarcodeNSDataType += OnBarcodeScanned;
+
+// register the peripheral events delegate - must be set before connecting to the peripheral
+Peripheral.AddDelegate(PeripheralEvents);
+
 ```
 
 Next, implement the function that handles the scan and the dat returned
@@ -376,7 +353,6 @@ Next, implement the function that handles the scan and the dat returned
 private void OnBarcodeScanned(object sender, BarcodeNSDataTypeEventArgs e)
 {
     Console.WriteLine($"Barcode scanned: {e.Barcode} ({e.Type})");
-    ScanTypeLabel.Text = $"Barcode ({e.Type})";
-    ScanDataLabel.Text = e.Barcode.ToString();
+    //update UI code here 
 }
 ```
