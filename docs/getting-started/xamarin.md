@@ -117,14 +117,14 @@ Now initialize a payment device that matches the hardware you are using. The cur
 Initialize QPC150, QPC250 (Lightning connector)
 
 ```csharp
-var paymentDevice = new QPC250()
+var paymentDevice = new QPC250();
 ```
 
 Initialize QPP400, QPP450, QPR250, QPR300 (Bluetooth LE) by supplying its serial number so the PaymentEngine can search for and connect to it. On first connection, the app will prompt you to pair the device. Be sure to press “OK” when the pop-up is shown. To complete the pairing, if using a QPR device, press the small button on top of the device opposite the power button. If using a QPP device, press the green check mark button on the bottom right of the keypad.
 // The device serial number is found on the label on the device.
 
 ```csharp
-var paymentDevice = new QPR250("2320900026") 
+var paymentDevice = new QPR250("2320900026");
 ```
 
 ### Create payment engine
@@ -218,7 +218,7 @@ paymentEngine.SetConnectionStateHandler((peripheral, connectionState) =>
 });
 
   // connect to the peripheral - must be called before any further interaction with the peripheral
-  PaymentEngine.Connect();
+  paymentEngine.Connect();
 
 ```
 
@@ -226,7 +226,9 @@ paymentEngine.SetConnectionStateHandler((peripheral, connectionState) =>
 Time to create an invoice. This invoice object holds information about a purchase order and the items in the order.
 
 ```csharp
-var invoice = paymentEngine.BuildInvoice(invoiceNum.ToString())
+var orderNum = 1;
+
+var invoice = paymentEngine.BuildInvoice(orderNum.ToString())
                            .CompanyName("ACME SUPPLIES INC.")
                            .PurchaseOrderReference("PO1234")
                            .AddItem("SKU1", "Discount Voucher for Return Visit", 0M)
@@ -246,14 +248,16 @@ var invoice = paymentEngine.BuildInvoice(invoiceNum.ToString())
 The transaction object holds information about the invoice, the total amount for the transaction and the type of the transaction (e.g.: sale, auth, refund, etc.)
 
 ```csharp
+var reference = "3423-2234-222"
 var service = "TestService";
+var amount = 5.00M; // $5.00 USD
 
 var txn = paymentEngine.BuildTransaction(invoice)
                        .Sale() // other optons: refund(), auth(), capture(), void()
-                       .Amount(amount, currency)
+                       .Amount(amount, Currency.USD)
                        .Reference(reference) // required - unique transaction reference, such as your application order number
                        .Service(service) // optional - allow customer to control the merchant account that will process the transaction in business that have multiple services / legal entities
-                       .MetaData(new Dictionary<string, string> {{"OrderNumber", invoiceNum.ToString()}, {"Delivered", "Y"}}) // optional - store data object to associate with the transaction
+                       .MetaData(new Dictionary<string, string> {{"OrderNumber", orderNum.ToString()}, {"Delivered", "Y"}}) // optional - store data object to associate with the transaction
                        .Build();
 ```
 
