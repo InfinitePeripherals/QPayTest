@@ -111,8 +111,6 @@ QuantumPay.Client.Tenant tenant = new QuantumPay.Client.Tenant(hostKey, tenantKe
 InfinitePeripherals.Init(developerKey, tenant);
 ```
 
----
-
 ### Create Payment Device
 Now initialize a payment device that matches the hardware you are using. The current supported payment devices are: QPC150, QPC250, QPP400, QPP450, QPR250, QPR300. Note that this step is different for payment devices that are connected with Bluetooth LE.
 
