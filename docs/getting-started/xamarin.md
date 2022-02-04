@@ -37,7 +37,7 @@ Learn how to set up your Xamarin app to use QuantumPay to process payment transa
 - Payment related credentials: username/email, password, service name and tenant key
 </div>
 
-***If you are missing any of these items, please contact Infinite Peripherals**
+***If you are missing any of these items, please contact Infinite Peripherals***
 
 ---
 
@@ -132,9 +132,11 @@ var paymentDevice = new QPR250("2320900026");
 The payment engine is the main object that you will interact with to send transactions and receive callbacks.
 
 ```csharp
+// 
 var username = "test@testuser.com";
 var password = "P@ssword";
-var testPosId = "TestPosId"; // this should be a unique value for your device instance
+
+var testPosId = "TestPosId"; // this should be a unique value for your device instance. The POS ID is a customer generated unique value for the instance of the app installation. It can be any string value of the customer's choice. It will be used to identify the app/device instance when processing transactions and is visible in the portal.
 
 var paymentEngine = await PaymentEngine.Builder
                                        .AssignLocationsToTransactions() // optional - use precise tracking for assigning locations
