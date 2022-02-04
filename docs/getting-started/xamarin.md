@@ -44,6 +44,12 @@ Learn how to set up your Xamarin app to use QuantumPay to process payment transa
 ## Project setup
 Before we jump into the code we need to make sure your project is properly configured to use the QuantumPay frameworks. Follow the steps below to get you set up.
 
+### Installing dependancies
+
+Please install the following dependancies. 
+
+System.Buffers: https://www.nuget.org/packages/System.Buffers/
+
 ### Adding the QuantumPay SDKs
 
 1. Open Visual Studio and create a new folder to put the frameworks in. If you have a place for frameworks already you can skip this.
