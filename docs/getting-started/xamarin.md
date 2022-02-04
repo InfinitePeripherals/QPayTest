@@ -78,8 +78,8 @@ com.datecs.pinpad
 Also in your project's **Info.plist** file we need to add the four (4) privacy tags listed below. You can enter any string value you want or copy what we have below. Note: in Xcode 13.0+ this has been moved to the "Info" tab in your project's settings.
 
 ```
-"Privacy - Bluetooth Always Usage Description" 
 "Privacy - Bluetooth Peripheral Usage Description"
+"Privacy - Location Always Usage Description" 
 "Privacy - Location When In Use Usage Description" 
 "Privacy - Location Usage Description"
 ```
