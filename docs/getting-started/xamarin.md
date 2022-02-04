@@ -117,14 +117,14 @@ Now initialize a payment device that matches the hardware you are using. The cur
 Initialize QPC150, QPC250 (Lightning connector)
 
 ```csharp
-var paymentDevice = new QPC250();
+var paymentDevice = new Qpr250();
 ```
 
 Initialize QPP400, QPP450, QPR250, QPR300 (Bluetooth LE) by supplying its serial number so the PaymentEngine can search for and connect to it. On first connection, the app will prompt you to pair the device. Be sure to press “OK” when the pop-up is shown. To complete the pairing, if using a QPR device, press the small button on top of the device opposite the power button. If using a QPP device, press the green check mark button on the bottom right of the keypad.
 // The device serial number is found on the label on the device.
 
 ```csharp
-var paymentDevice = new QPR250("2320900026");
+var paymentDevice = new Qpr250("2320900026");
 ```
 
 ### Create payment engine
