@@ -171,7 +171,7 @@ paymentEngine.SetTransactionStateHandler((peripheral, transaction, transactionSt
 
     if (transactionState.IsFinalState())
     {
-        StopEmv(this, EventArgs.Empty);
+       // handle final state of transaction here
     }
 });
 
