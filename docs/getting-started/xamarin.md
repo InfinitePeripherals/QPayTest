@@ -60,6 +60,7 @@ System.Buffers: https://www.nuget.org/packages/System.Buffers/
   <img src="https://github.com/InfinitePeripherals/QuantumPay/blob/1392806182d2a677a669d5402d349ff1d9f6b23d/docs/assets/images/walkthroughs/xamarin-1.png" style='border:1px solid #000000' />
 </p>
 
+3. Import the QuantumSDK.iOS.resources folder provided by IPC Peripherals.
 
 ### Add MFi protocols to Info.plist
 Go to your project's **Info.plist** file and add a new entry for "Supported external accessory protocols" using the following values. Note: in Xcode 13.0+ this has been moved to the "Info" tab in your project's settings.
@@ -88,6 +89,20 @@ Also in your project's **Info.plist** file we need to add the four (4) privacy t
 "Privacy - Location Always Usage Description" 
 "Privacy - Location When In Use Usage Description" 
 "Privacy - Location Usage Description"
+```
+
+We also need to add the "NSBluetoothAlwaysUsageDescription"
+
+```
+"NSBluetoothAlwaysUsageDescription"
+```
+
+Finally we need to add the "Required Background Modes" array with three (3) string entries.
+
+```
+"Required background modes" : "App registers for location updates"
+                              "App communicates with an accessory"
+                              "App downloads content from the network"
 ```
 
 <p align="center">
