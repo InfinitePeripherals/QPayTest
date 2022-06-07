@@ -6,9 +6,7 @@ parent: Getting Started
 has_children: false
 ---
 
-# Getting Started with iOS
-Version 2.0.1
-
+# Getting Started with iOS v2.0.1
 {: .fs-9 .no_toc }
 
 Learn how to set up your iOS app to process payment transactions using QuantumPay.
