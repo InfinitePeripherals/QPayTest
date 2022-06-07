@@ -7,6 +7,8 @@ has_children: false
 ---
 
 # Getting Started with iOS
+Version 2.0.1
+
 {: .fs-9 .no_toc }
 
 Learn how to set up your iOS app to process payment transactions using QuantumPay.
@@ -33,7 +35,6 @@ Learn how to set up your iOS app to process payment transactions using QuantumPa
     - QuantumPayMobile.xcframework
     - QuantumPayPeripheral.xcframework
     - QuantumSDK.xcframework
-    - ObjectBox **(CocoaPods)**
 - Xcode 11+ / iOS 13+ / Swift 5.0+
 - Infinite Peripherals payment device
 - Infinite Peripherals developer key for your app bundle ID
@@ -67,19 +68,6 @@ Before we jump into the code we need to make sure your Xcode project is properly
 
 <p align="center">
   <img src="https://www.infineadev.com/lucas/qpay/ios-3.png" style='border:1px solid #000000' />
-</p>
-
-### Installing ObjectBox
-
-1. In order to use the QuantumPay frameworks you will need to add ObjectBox to your project. Visit [ObjectBox](https://swift.objectbox.io) and follow the instructions to install ObjectBox to your project.
-
-2. If your project is not using CocoaPods yet, it may be more helpful to start here [ObjectBox - Detailed Instructions](https://swift.objectbox.io/install#detailed-instructions)
-
-### Turn off Bitcode support
-Go to your project's Build Settings tab and set **Enable Bitcode** to "No". The easiest way to find this setting is to use the search field in the top right.
-
-<p align="center">
-  <img src="https://www.infineadev.com/lucas/qpay/ios-4.png" style='border:1px solid #000000' />
 </p>
 
 ### Add MFi protocols to Info.plist
@@ -148,20 +136,36 @@ The payment engine is the main object that you will interact with to send transa
 ```swift
 do {
     try PaymentEngine.builder()
-        // Set server environment to either test or production
+        /// The server where the payment is sent to for processing
         .server(server: ServerEnvironment.test)
-        // Credentials used to register hardware devices
-        .registrationCredentials(username: "username", password: "password")
-        // Using the device we created earlier, set the peripheral and capabilities
-        // Capabilities are the card input methods (e.g.: Mag stripe, contactless, chip). If you don't want the full array of capabilities provided by the device object, you can pass an array of select input methods only.
-        .addPeripheral(peripheral: paymentDevice, capabilities: paymentDevice.availableCapabilities!, autoConnect: false)
-        // The Point of Sale ID of the device/app. This posID should be unique for each instance of the app. This is used by the database to access saved transactions.
-        .posID(posID: "posId")
-        // Amount of time after transaction has started to wait for card to be presented
+        /// Specify the username and password that will be used for authentication while registering peripheral devices with the Quantum Pay server. The provided credentials must have Device Administrator permissions. Optional.
+        .registrationCredentials(username: PaymentConfig.username, password: PaymentConfig.password)
+        /// Add a supported peripheral for taking payment, and specify the available capabilities
+        /// If you want to auto connect the payment device, set the autoConnect to true,
+        /// otherwise set to false and manually call paymentEngine.connect() where approriate in your workflow.
+        .addPeripheral(peripheral: self.paymentDevice, capabilities: self.paymentDevice.availableCapabilities!, autoConnect: false)
+        /// Specify the unique POS ID for identifying transactions from a particular phone or tablet. Any string value
+        /// can be used, but it should be unique for the instance of the application installation. A persistent GUID is
+        /// recommended if the application does not already have persistent unique identifiers for app installs.
+        /// Required.
+        .posID(posID: PaymentConfig.posId)
+        /// Specify the Mobile.EmvApplicationSelectionStrategy to use when a presented payment card supports multiple EMV applications and the user or customer must select one of them to be able to complete the transaction. Optional.
+        .emvApplicationSelectionStrategy(strategy: .defaultStrategy)
+        /// Specify the time interval that the Peripheral will wait for a card to be presented when a transaction is
+        /// started. Optional. The default value is 1 minute when not specified.
         .transactionTimeout(timeoutInSeconds: 30)
-        // StoreAndForwardMode for submitting transactions to server
-        .storeAndForward(mode: .whenOffline, autoUploadInterval: 60)
-        // If this build function is successful, the PaymentEngine will be passed in the completion block.
+        /// Specify the StoreAndForwardMode for handling card transactions. Optional.
+        .queueWhenOffline(autoUploadInterval: 60)
+        /// Add location to each transactions.
+        /// Make sure to add the required Privacy - Locations in plist
+        .assignLocationsToTransactions()
+        /// When there is an exception that the SDK doesnt handle, this handler will get called
+        /// The app should decide what to do in this situation. You can either restart the transaction or reupload stored transactions
+        .unhandledExceptionHandler(handler: { transactions, errors, warnings in
+            // Handle the unexpected exception here.
+            // Show user a message to redo the transaction?
+        })
+        /// If this build function is successful, the PaymentEngine will be passed in the completion block.
         .build(handler: { (engine) in
             // Save the created engine object
             self.pEngine = engine
@@ -175,14 +179,14 @@ catch {
 ### Setup Handlers
 Once the `PaymentEngine` is created, you can use it's handlers to track the operation. The `PaymentEngine` handlers will get called throughout the payment process and will return you the current state of the transaction. You can set these handlers in the completion block of the previous step.
 
-`ConnectionStateHandler` will get called when the connection state of the payment device changes between connecting, connected, and disconnected. It is important to make sure your device is connected before attempting to start a transaction.
+- `ConnectionStateHandler` will get called when the connection state of the payment device changes between connecting, connected, and disconnected. It is important to make sure your device is connected before attempting to start a transaction.
 ```swift
 self.pEngine!.setConnectionStateHandler(handler: { (peripheral, connectionState) in
     // Handle connection state
 })
 ```
 
-`TransactionResultHandler` will get called after the transaction is processed. The `TransactionResult` status will disclose whether the transaction was approved or declined.
+- `TransactionResultHandler` will get called after the transaction is processed. The `TransactionResult` status will disclose whether the transaction was approved or declined.
 ```swift
 self.pEngine!.setTransactionResultHandler(handler: { (transactionResult) in
     // Handle the transaction result
@@ -191,36 +195,46 @@ self.pEngine!.setTransactionResultHandler(handler: { (transactionResult) in
 })
 ```
 
-`TransactionStateHandler` will get called when the transaction state changes. The `TransactionState` represents a unique state in the workflow of capturing a transaction. These include "waitingForCard, waitingForPin, onlineAuthorization, etc.
+- `TransactionStateHandler` will get called when the transaction state changes. The `TransactionState` represents a unique state in the workflow of capturing a transaction. These include "waitingForCard, waitingForPin, onlineAuthorization, etc.
 ```swift
 self.pEngine!.setTransactionStateHandler(handler: { (peripheral, transaction, transactionState) in
     // Handle transaction state
 })
 ```
 
-`PeripheralStateHandler` will get called when the state of the peripheral changes during the transaction process. The `PeripheralState` represents the current state of the peripheral as reported by the peripheral device itself. These include "idle", "ready", "contactCardInserted" etc.
+- `PeripheralStateHandler` will get called when the state of the peripheral changes during the transaction process. The `PeripheralState` represents the current state of the peripheral as reported by the peripheral device itself. These include "idle", "ready", "contactCardInserted" etc.
 ```swift
 self.pEngine!.setPeripheralStateHandler(handler: { (peripheral, state) in
     // Handle peripheral state
 })
 ```
 
-`PeripheralMessageHandler` will get called when there is new message about the transaction throughout the process. The peripheral message tells you when to present the card, if the card read is successful or failed, etc. This usually indicates something that should be displayed in the user interface.
+- `PeripheralMessageHandler` will get called when there is new message about the transaction throughout the process. The peripheral message tells you when to present the card, if the card read is successful or failed, etc. This usually indicates something that should be displayed in the user interface.
 ```swift
 self.pEngine!.setPeripheralMessageHandler(handler: { (peripheral, message) in
     // Handle peripheral message
 })
 ```
 
+- `SignatureVerificationHandler` will get called when the transaction requires a signature. Here, your app can display a signature capture screen to let user sign for the transaction. Once the signature is captured, invoke the `verification.signatureAccepted()` method to tell the SDK that signature is captured or call `verification.signatureRejected()` to decline the transaction.
+```swift
+    // Show a signature capture screen?
+    // If signature is accepted, call
+    verification.signatureAccepted()
+
+    // Or reject signature and decline the transaction
+    verification.signatureRejected()
+```
+
 ### Connect to Payment Device
-Now that your payment engine is configured and your handlers are set up, lets connect to the payment device. Please make sure the device is attached and turned on. We need to connect to the payment device prior to starting a transaction. The connection state will be returned to the `ConnectionStateHandler` that we set up previously. If you didn't set autoConnect when creating the payment engine, you will need to call `connect()` before starting a transaction.
+Now that your payment engine is configured and your handlers are set up, lets connect to the payment device. Please make sure the device is turned on and connected. We need to connect to the payment device prior to starting a transaction. The connection state will be returned to the `ConnectionStateHandler` that we set up previously. If you didn't set `autoConnect = true` when adding the peripheral, you will need to call `PaymentEngine.connect()` before starting a transaction.
 
 ```swift
 self.pEngine!.connect()
 ```
 
 ### Create an Invoice
-Time to create an invoice. This invoice object holds information about a purchase order and the items in the order.
+It is time to create an invoice. The invoice object holds information about the purchase order and the line items in the order.
 
 ```swift
 let invoice = try self.pEngine!
@@ -235,17 +249,32 @@ let invoice = try self.pEngine!
                     // Another way to add item to the invoice
                     .addItem { (itemBuilder) -> InvoiceItemBuilder in
                         return itemBuilder
-                            .productCode("SKU2")
-                            .productDescription("In Store Item")
-                            .saleCode(SaleCode.S)
-                            .unitPrice(1.00)
-                            .quantity(1)
-                            .unitOfMeasureCode(.Each)
-                            .calculateTotals()
+                        /// Specify the product or service code or SKU for the invoice item. Required.
+                        .productCode("SKU2")
+                        /// Describe the product or service on the invoice item. Required.
+                        .productDescription("In Store Item")
+                        /// Specify the SaleCode for the product or service on the invoice item.
+                        /// Optional. The default value is "Sale" when not provided.
+                        .saleCode(SaleCode.S)
+                        /// Specify the unit price of the invoice item in the currency of the Transaction. Required.
+                        .unitPrice(amount)
+                        /// Specify the quantity sold of the invoice item. Optional. The default value is 1 when not provided.
+                        .quantity(1)
+                        /// Set the discount amount for the item.
+                        .setDiscountTotal(0)
+                        /// Set the gross amount for the item. The amount should be manually calculated based on local regulation.
+                        .setGrossTotal(amount)
+                        /// Set the net amount for the item. The amount should be manually calculated based on local regulation.
+                        .setNetTotal(amount)
+                        /// Set the tax amount for the item. The amount should be manually calculated based on local regulation.
+                        .setTaxTotal(0)
+                        /// Specify the UnitOfMeasure for the quantity of the invoice item.
+                        /// Optional. The default value is UnitOfMeasure.Each when not provided.
+                        .unitOfMeasureCode(.Each)
                     }
-                    // Calculate totals on the invoice
+                    // Calculate totals for Gross, Net, Tax, Discount for all items on the invoice.
                     .calculateTotals()
-                    // Builds invoice instance with the provided values
+                    // Builds invoice instance with the provided values.
                     .build()
 ```
 
@@ -256,7 +285,7 @@ The transaction object holds information about the invoice, the total amount for
 let transaction = try self.pEngine!.buildTransaction(invoice: invoice)
                         // The transaction is of type Sale
                         .sale()
-                        // The total amount of for all invoices
+                        // The total amount of for the transaction. This is the amount that will be taken out from the card. 
                         .amount(1.00, currency: .USD)
                         // A unique reference to the transaction. This cannot be reused.
                         .reference("A reference to this transaction")
@@ -295,7 +324,7 @@ transactionResult.receipt?.merchantReceiptUrl
 ```
 
 ### Disconnect Payment Device
-Now that the transaction is complete you are free to disconnect the payment device if you wish. Please note that this should not be called before or during the transaction process.
+Now that the transaction is complete you are free to disconnect the payment device if you wish. Please note that this should not be called before or during the transaction process. It is not recommended to disconnect the payment device if you are doing transaction continuously. Reconnection to a payment device might take some time depends on the type of the device you have (e.g.: BLE device takes longer time to discover and connect)
 
 ```swift
 self.pEngine!.disconnect()
