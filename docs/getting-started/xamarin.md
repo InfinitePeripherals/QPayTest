@@ -280,7 +280,7 @@ var txn = paymentEngine.BuildTransaction(invoice)
                        .Amount(amount, Currency.USD)
                        .Reference(reference) // required - unique transaction reference, such as your application order number
                        .Service(service) // optional - allow customer to control the merchant account that will process the transaction in business that have multiple services / legal entities
-                       .MetaData(new Dictionary<string, string> {{"OrderNumber", orderNum.ToString()}, {"Delivered", "Y"}}) // optional - store data object to associate with the transaction
+                       .MetaData(new Dictionary<string, string> { { "OrderNumber", orderNum.ToString() }, { "Delivered", "Y" } }) // optional - store data object to associate with the transaction
                        .Build();
 ```
 
