@@ -32,4 +32,4 @@ QuantumPayClient handles communication with web APIs. This is the library you us
 QuantumPayMobile is the library that handles payment engine operations. It is in charge of controlling the payment flow and communicating back the state of the transaction back to the host app. This is the library you use to build transactions and utilize store & forward for offline operation. Also, if you plan on using some other payment hardware, this library has interfaces to write your own peripheral classes.
 
 ### QuantumPayPeripheral
-QuantumPayPeripheral is specifically for managing Infinite Peripherals payment devices. This library has predefined classes meant to work with our suite of payment devices. If using one of our devices, this is where you would manage the connection to the device, whether its Bluetooth or directly connected.
+QuantumPayPeripheral is specifically for managing Infinite Peripherals payment devices. This library has predefined classes meant to work with our suite of payment devices. If using one of our devices, this is where you would manage the connection to the device, whether its Bluetooth or directly connected. 
