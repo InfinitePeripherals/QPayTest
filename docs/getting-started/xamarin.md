@@ -57,7 +57,7 @@ System.Buffers: https://www.nuget.org/packages/System.Buffers/
 2. Import the QuantumPay frameworks into your folder.
 
 <p align="center">
-  <img src="https://github.com/InfinitePeripherals/QuantumPay/blob/1392806182d2a677a669d5402d349ff1d9f6b23d/docs/assets/images/walkthroughs/xamarin-1.png" style='border:1px solid #000000' />
+  <img src="https://github.com/InfinitePeripherals/QuantumPay/blob/staging/docs/assets/images/walkthroughs/xamarin-1.png?raw=true" style='border:1px solid #000000' />
 </p>
 
 3. Import the QuantumSDK.iOS.resources folder provided by IPC Peripherals.
@@ -77,7 +77,7 @@ com.datecs.pinpad
 ```
 
 <p align="center">
-  <img src="https://github.com/InfinitePeripherals/QuantumPay/blob/69f4b1c932ee6042b3a09ff0bf29571ee558d234/docs/assets/images/walkthroughs/xamarin-2.png" style='border:1px solid #000000' />
+  <img src="https://github.com/InfinitePeripherals/QuantumPay/blob/staging/docs/assets/images/walkthroughs/xamarin-2.png?raw=true" style='border:1px solid #000000' />
 </p>
 
 ### Add privacy entries to Info.plist
@@ -106,7 +106,7 @@ Finally we need to add the "Required Background Modes" array with three (3) stri
 ```
 
 <p align="center">
-  <img src="https://github.com/InfinitePeripherals/QuantumPay/blob/6fb4d1412c7028d19f214e7a84c59e0ca5b61b1c/docs/assets/images/walkthroughs/xamarin-3.png" style='border:1px solid #000000' />
+  <img src="https://github.com/InfinitePeripherals/QuantumPay/blob/staging/docs/assets/images/walkthroughs/xamarin-3.png?raw=true" style='border:1px solid #000000' />
 </p>
 
 ---
