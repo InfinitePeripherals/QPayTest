@@ -34,4 +34,4 @@ For a guide on how to set up and use QuantumPay with your application, check out
 
 ## License
 
-QuantumPay is released under the ___ license. [See LICENSE](https://google.com) for details.
+All rights reserved.
