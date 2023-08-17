@@ -12,7 +12,7 @@ QuantumPay Solution. Your single source payment solution provider, purposely bui
 
 ## Downloads
 
-You can find the lastest version of QuantumPay at [https://github.com/InfinitePeripherals/QuantumPay/releases](https://github.com/InfinitePeripherals/QuantumPay/releases)
+Please contact us for latest SDK.
 
 ## Getting Started
 
@@ -30,7 +30,7 @@ For a guide on how to set up and use QuantumPay with your application, check out
 ## Getting Help
 
 - If you have questions, email us at [mobilesupport@ipcmobile.com](mailto:mobilesupport@ipcmobile.com)
-- You can also contact Infinite Peripherals at 001.949.222.0300
+- You can also contact Infinite Peripherals at +1(949)222-0300
 
 ## License
 
