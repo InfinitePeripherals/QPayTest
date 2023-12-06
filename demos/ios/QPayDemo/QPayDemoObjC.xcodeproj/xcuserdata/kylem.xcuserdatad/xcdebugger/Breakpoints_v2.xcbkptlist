@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "8166335D-AF3F-4901-B18D-E195C8F6145D"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F0A883EF-6350-4352-884C-3A2BF90AB2F7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QPayDemoObjC/BarcodeViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
+            landmarkName = "-rfCardDetected:info:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CFD2931B-8BAD-4EB8-8EED-C8F037CBA4BA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QPayDemoObjC/BarcodeViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
+            landmarkName = "-actionStopRF:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9A4F3B6C-9E14-481D-B584-157128917718"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QPayDemoObjC/BarcodeViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "-actionStartRF:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "84A17A20-8D34-4487-9B91-E3012A92F171"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QPayDemoObjC/PaymentViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
+            landmarkName = "actionDiscoverDevices(sender:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "84A17A20-8D34-4487-9B91-E3012A92F171 - 924b5fd82727435c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in QPayDemoObjC.PaymentViewController.actionDiscoverDevices(sender: __C.UIButton) -&gt; ()"
+                  moduleName = "QPayDemoObjC"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kylem/Dropbox/Infinite_Peripherals/QuantumPayCloud/iOS/QPayDemoObjC+Swift-Latest-Demo2-2.1.0-DEFAULT/QPayDemoObjC/PaymentViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "86"
+                  endingLineNumber = "86"
+                  offsetFromSymbolStart = "412">
+               </Location>
+               <Location
+                  uuid = "84A17A20-8D34-4487-9B91-E3012A92F171 - 924b5fd82727435c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in QPayDemoObjC.PaymentViewController.actionDiscoverDevices(sender: __C.UIButton) -&gt; ()"
+                  moduleName = "QPayDemoObjC"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kylem/Dropbox/Infinite_Peripherals/QuantumPayCloud/iOS/QPayDemoObjC+Swift-Latest-Demo2-2.1.0-DEFAULT/QPayDemoObjC/PaymentViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "86"
+                  endingLineNumber = "86"
+                  offsetFromSymbolStart = "336">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D023E1E3-D1E7-4283-822B-F04FA2D60137"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QPayDemoObjC/PaymentViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
+            landmarkName = "actionCaptureSerial(sender:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D023E1E3-D1E7-4283-822B-F04FA2D60137 - 4a58c146522fca4f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.String) -&gt; () in QPayDemoObjC.PaymentViewController.actionCaptureSerial(sender: __C.UIButton) -&gt; ()"
+                  moduleName = "QPayDemoObjC"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kylem/Dropbox/Infinite_Peripherals/QuantumPayCloud/iOS/QPayDemoObjC+Swift-Latest-Demo2-2.1.0-DEFAULT/QPayDemoObjC/PaymentViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "71"
+                  endingLineNumber = "71"
+                  offsetFromSymbolStart = "144">
+               </Location>
+               <Location
+                  uuid = "D023E1E3-D1E7-4283-822B-F04FA2D60137 - 4a58c146522fca4f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.String) -&gt; () in QPayDemoObjC.PaymentViewController.actionCaptureSerial(sender: __C.UIButton) -&gt; ()"
+                  moduleName = "QPayDemoObjC"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kylem/Dropbox/Infinite_Peripherals/QuantumPayCloud/iOS/QPayDemoObjC+Swift-Latest-Demo2-2.1.0-DEFAULT/QPayDemoObjC/PaymentViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "71"
+                  endingLineNumber = "71"
+                  offsetFromSymbolStart = "68">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
+         <BreakpointContent
+            uuid = "CB80473D-9E77-444A-9360-BB91D549E093"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            breakpointStackSelectionBehavior = "1"
+            scope = "1"
+            stopOnStyle = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

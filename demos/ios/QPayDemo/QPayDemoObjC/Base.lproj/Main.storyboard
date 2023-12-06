@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="xPC-cp-wKu">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yem-Gi-stE">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="222.5"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="24"/>
+                                        <state key="normal" title="BARCODE OBJC">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="OJO-tp-Q7I" kind="show" id="SW5-en-Pvx"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7N0-0M-uVw">
+                                        <rect key="frame" x="0.0" y="222.5" width="375" height="222"/>
+                                        <color key="backgroundColor" name="AccentColor"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="24"/>
+                                        <state key="normal" title="PAYMENT SWIFT">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="iUq-yy-OfU" kind="show" id="Ykz-Oz-dTw"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ejD-41-NCc">
+                                        <rect key="frame" x="0.0" y="444.5" width="375" height="222.5"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="24"/>
+                                        <state key="normal" title="CHECK-IN">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="actionCheckIn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="82O-Vo-fFN"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="xPC-cp-wKu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="1aA-uX-LFg"/>
+                            <constraint firstAttribute="bottom" secondItem="xPC-cp-wKu" secondAttribute="bottom" id="5kM-L4-wgg"/>
+                            <constraint firstItem="xPC-cp-wKu" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="Gzo-KZ-qJo"/>
+                            <constraint firstItem="xPC-cp-wKu" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="HO2-i1-lQW"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-404.34782608695656" y="147.99107142857142"/>
+        </scene>
+        <!--Barcode View Controller-->
+        <scene sceneID="ej6-bo-5nb">
+            <objects>
+                <viewController storyboardIdentifier="BarcodeViewController" id="OJO-tp-Q7I" customClass="BarcodeViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="BTk-HS-0Hy">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="60" translatesAutoresizingMaskIntoConstraints="NO" id="r1d-tR-Wz9">
+                                <rect key="frame" x="145" y="219" width="85.5" height="209.5"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t46-16-bk4">
+                                        <rect key="frame" x="0.0" y="0.0" width="85.5" height="34.5"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Start RF"/>
+                                        <connections>
+                                            <action selector="actionStartRF:" destination="OJO-tp-Q7I" eventType="touchUpInside" id="zWJ-Y6-Aj4"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SLl-m9-PJG">
+                                        <rect key="frame" x="0.0" y="94.5" width="85.5" height="34.5"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Stop RF"/>
+                                        <connections>
+                                            <action selector="actionStopRF:" destination="OJO-tp-Q7I" eventType="touchUpInside" id="QOk-XN-TD8"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BARCODE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G5k-f6-e4U">
+                                        <rect key="frame" x="0.0" y="189" width="85.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="i9R-oN-dcR"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="r1d-tR-Wz9" firstAttribute="centerY" secondItem="BTk-HS-0Hy" secondAttribute="centerY" id="Oy0-j4-Iil"/>
+                            <constraint firstItem="r1d-tR-Wz9" firstAttribute="centerX" secondItem="BTk-HS-0Hy" secondAttribute="centerX" id="pef-6Z-pAx"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="fsi-1g-DGE"/>
+                    <connections>
+                        <outlet property="barcodeLabel" destination="G5k-f6-e4U" id="DlB-DN-MJQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nnO-s2-jSc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1134" y="-152"/>
+        </scene>
+        <!--Payment View Controller-->
+        <scene sceneID="uJy-7U-v1S">
+            <objects>
+                <viewController storyboardIdentifier="PaymentViewController" id="iUq-yy-OfU" customClass="PaymentViewController" customModule="QPayDemoObjC" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="TAx-r0-471">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="EJ8-bl-KHb">
+                                <rect key="frame" x="0.0" y="497" width="375" height="150"/>
+                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="5QJ-NZ-iqr"/>
+                                </constraints>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="CoM-gD-gK1">
+                                <rect key="frame" x="0.0" y="20" width="375" height="437"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oal-60-gdw">
+                                        <rect key="frame" x="121.5" y="0.0" width="132" height="39.5"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Capture Serial"/>
+                                        <connections>
+                                            <action selector="actionCaptureSerialWithSender:" destination="iUq-yy-OfU" eventType="touchUpInside" id="YkC-Hr-8Df"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7yV-me-N0W">
+                                        <rect key="frame" x="110" y="49.5" width="155.5" height="40"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Discover Devices"/>
+                                        <connections>
+                                            <action selector="actionDiscoverDevicesWithSender:" destination="iUq-yy-OfU" eventType="touchUpInside" id="2SR-oT-Ivk"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d7W-hP-nUH">
+                                        <rect key="frame" x="113.5" y="99.5" width="148" height="39.5"/>
+                                        <state key="normal" title="Start Payment Engine"/>
+                                        <connections>
+                                            <action selector="actionStartEngineWithSender:" destination="iUq-yy-OfU" eventType="touchUpInside" id="ok7-td-9ug"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sgb-SQ-KR5">
+                                        <rect key="frame" x="118" y="149" width="139" height="39.5"/>
+                                        <state key="normal" title="Connect Peripherals"/>
+                                        <connections>
+                                            <action selector="actionConnectWithSender:" destination="iUq-yy-OfU" eventType="touchUpInside" id="GXw-S8-nPG"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="07q-4E-7pq">
+                                        <rect key="frame" x="128.5" y="198.5" width="118" height="40"/>
+                                        <state key="normal" title="Start Transaction"/>
+                                        <connections>
+                                            <action selector="actionStartTransactionWithSender:" destination="iUq-yy-OfU" eventType="touchUpInside" id="JMH-3q-m0j"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gY5-iU-cgN">
+                                        <rect key="frame" x="129.5" y="248.5" width="116" height="39.5"/>
+                                        <state key="normal" title="Stop Transaction"/>
+                                        <connections>
+                                            <action selector="actionStopTransactionWithSender:" destination="iUq-yy-OfU" eventType="touchUpInside" id="HLJ-ly-9yO"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eum-1N-EaU">
+                                        <rect key="frame" x="97.5" y="298" width="180" height="39.5"/>
+                                        <state key="normal" title="Check stored transactions"/>
+                                        <connections>
+                                            <action selector="actionCheckDatabaseTransactionsWithSender:" destination="iUq-yy-OfU" eventType="touchUpInside" id="Xq5-kG-Vak"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="363-M6-rAA">
+                                        <rect key="frame" x="94.5" y="347.5" width="186" height="40"/>
+                                        <state key="normal" title="Upload stored transactions"/>
+                                        <connections>
+                                            <action selector="actionUploadStoredTransactionWithSender:" destination="iUq-yy-OfU" eventType="touchUpInside" id="Sa4-86-jjS"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dpG-R7-0Mt">
+                                        <rect key="frame" x="140.5" y="397.5" width="94" height="39.5"/>
+                                        <state key="normal" title="Show Receipt"/>
+                                        <connections>
+                                            <action selector="actionShowReceipt" destination="iUq-yy-OfU" eventType="touchUpInside" id="hD3-N9-xO3"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="R2e-A6-OQF"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="EJ8-bl-KHb" firstAttribute="top" secondItem="CoM-gD-gK1" secondAttribute="bottom" constant="40" id="JWj-Sz-Ag1"/>
+                            <constraint firstItem="CoM-gD-gK1" firstAttribute="top" secondItem="R2e-A6-OQF" secondAttribute="top" constant="20" id="JeP-5g-Eza"/>
+                            <constraint firstItem="CoM-gD-gK1" firstAttribute="leading" secondItem="R2e-A6-OQF" secondAttribute="leading" id="Lj3-G9-DfR"/>
+                            <constraint firstItem="R2e-A6-OQF" firstAttribute="trailing" secondItem="CoM-gD-gK1" secondAttribute="trailing" id="ahy-LJ-Uur"/>
+                            <constraint firstItem="EJ8-bl-KHb" firstAttribute="bottom" secondItem="R2e-A6-OQF" secondAttribute="bottom" id="eWf-Ay-2kf"/>
+                            <constraint firstItem="EJ8-bl-KHb" firstAttribute="leading" secondItem="R2e-A6-OQF" secondAttribute="leading" id="qE4-61-fl0"/>
+                            <constraint firstItem="EJ8-bl-KHb" firstAttribute="trailing" secondItem="R2e-A6-OQF" secondAttribute="trailing" id="zlB-FC-KX7"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="LtB-EJ-WR2"/>
+                    <connections>
+                        <outlet property="outputTextView" destination="EJ8-bl-KHb" id="BGL-B8-hSy"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BVi-zl-m5A" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1133.5999999999999" y="673.31334332833592"/>
+        </scene>
+    </scenes>
+    <resources>
+        <namedColor name="AccentColor">
+            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray5Color">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
